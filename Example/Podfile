@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'MAAutoLayout_Example' do
+  pod 'MAAutoLayout', :path => '../'
+
+  target 'MAAutoLayout_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
