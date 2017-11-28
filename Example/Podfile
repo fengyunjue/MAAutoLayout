@@ -2,7 +2,7 @@ use_frameworks!
 
 target 'MAAutoLayout_Example' do
   pod 'MAAutoLayout', :path => '../'
-
+  pod 'Masonry'
   target 'MAAutoLayout_Tests' do
     inherit! :search_paths
 

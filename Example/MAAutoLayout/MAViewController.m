@@ -7,6 +7,8 @@
 //
 
 #import "MAViewController.h"
+#import "Masonry.h"
+#import "MAAutoLayout.h"
 
 @interface MAViewController ()
 
@@ -18,6 +20,20 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    UIView *view = [[UIView alloc] init];
+    view.backgroundColor = [UIColor redColor];
+    [self.view addSubview:view];
+    
+    [view ma_makeConstraints:^(MAAutoLayout * _Nonnull make) {
+        make.top.equalTo(self.view).offset(10);
+        make.left.equalTo(self.view).offset(10);
+        make.bottom.equalTo(self.view).offset(-10);
+        make.right.equalTo(self.view).offset(-10);
+    }];
+    [view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.bottom.equalTo(self.view).offset(10);
+//        make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(10, 10, 10, 10));
+    }];
 }
 
 - (void)didReceiveMemoryWarning

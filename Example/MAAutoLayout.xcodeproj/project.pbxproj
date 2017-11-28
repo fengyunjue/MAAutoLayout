@@ -38,8 +38,8 @@
 
 /* Begin PBXFileReference section */
 		1F4DD4685CC76412258F4ACC /* Pods-MAAutoLayout_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MAAutoLayout_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MAAutoLayout_Tests/Pods-MAAutoLayout_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		1FCED4722999DF8BC6CE1495 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		207C754F6C79601A41FC6290 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		1FCED4722999DF8BC6CE1495 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		207C754F6C79601A41FC6290 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		3E1DD29F99EF595A8580C126 /* Pods_MAAutoLayout_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MAAutoLayout_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58A195388D20070C39A /* MAAutoLayout_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MAAutoLayout_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -63,7 +63,7 @@
 		627A779C485490B0D2E30906 /* Pods-MAAutoLayout_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MAAutoLayout_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MAAutoLayout_Tests/Pods-MAAutoLayout_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		BFF75E7D36FA8448579827E9 /* MAAutoLayout.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = MAAutoLayout.podspec; path = ../MAAutoLayout.podspec; sourceTree = "<group>"; };
+		BFF75E7D36FA8448579827E9 /* MAAutoLayout.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = MAAutoLayout.podspec; path = ../MAAutoLayout.podspec; sourceTree = "<group>"; };
 		FA623B71229A35B6B8D2873B /* Pods_MAAutoLayout_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MAAutoLayout_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA64B6828E5FFCCDD6E3C370 /* Pods-MAAutoLayout_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MAAutoLayout_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-MAAutoLayout_Example/Pods-MAAutoLayout_Example.release.xcconfig"; sourceTree = "<group>"; };
 		FAF52416AF0C879342AA8A61 /* Pods-MAAutoLayout_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MAAutoLayout_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MAAutoLayout_Example/Pods-MAAutoLayout_Example.debug.xcconfig"; sourceTree = "<group>"; };
@@ -371,10 +371,12 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-MAAutoLayout_Example/Pods-MAAutoLayout_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/MAAutoLayout/MAAutoLayout.framework",
+				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MAAutoLayout.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -536,6 +538,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MAAutoLayout/MAAutoLayout-Prefix.pch";
 				INFOPLIST_FILE = "MAAutoLayout/MAAutoLayout-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -551,6 +554,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MAAutoLayout/MAAutoLayout-Prefix.pch";
 				INFOPLIST_FILE = "MAAutoLayout/MAAutoLayout-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
