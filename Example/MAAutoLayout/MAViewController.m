@@ -30,10 +30,10 @@
         make.bottom.equalTo(self.view).offset(-10);
         make.right.equalTo(self.view).offset(-10);
     }];
-    [view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.bottom.equalTo(self.view).offset(10);
-//        make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(10, 10, 10, 10));
-    }];
+//    [view mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.left.right.bottom.equalTo(self.view).offset(10);
+////        make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(10, 10, 10, 10));
+//    }];
 }
 
 - (void)didReceiveMemoryWarning
