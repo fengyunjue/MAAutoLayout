@@ -7,23 +7,4 @@
 
 ## Example
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
-## Requirements
-
-## Installation
-
-MAAutoLayout is available through [CocoaPods](http://cocoapods.org). To install
-it, simply add the following line to your Podfile:
-
-```ruby
-pod 'MAAutoLayout'
-```
-
-## Author
-
-ma772528138@qq.com, ma772528138@qq.com
-
-## License
-
-MAAutoLayout is available under the MIT license. See the LICENSE file for more info.
+[简书：Masonry思路解析Demo](http://www.jianshu.com/p/b0018f359fad)

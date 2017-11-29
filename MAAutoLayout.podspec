@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name             = 'MAAutoLayout'
-  s.version          = '0.1.0'
-  s.summary          = 'A short description of MAAutoLayout.'
+  s.version          = '1.0.0'
+  s.summary          = '简单的autoLayout的系统封装'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,14 +18,14 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+                        通过简单的代码完成autoLayout的系统封装，让autoLayout更简洁，同时引入的代码最少。
                        DESC
 
-  s.homepage         = 'https://github.com/ma772528138@qq.com/MAAutoLayout'
+  s.homepage         = 'https://github.com/fengyunjue/MAAutoLayout'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'ma772528138@qq.com' => 'ma772528138@qq.com' }
-  s.source           = { :git => 'https://github.com/ma772528138@qq.com/MAAutoLayout.git', :tag => s.version.to_s }
+  s.author           = { 'fengyunjue' => 'ma772528138@qq.com' }
+  s.source           = { :git => 'https://github.com/fengyunjue/MAAutoLayout.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '8.0'
@@ -36,7 +36,7 @@ TODO: Add long description of the pod here.
   #   'MAAutoLayout' => ['MAAutoLayout/Assets/*.png']
   # }
 
-  s.public_header_files = 'Pod/Classes/**/*.h'
+  s.public_header_files = 'MAAutoLayout/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
 end
