@@ -79,19 +79,19 @@
     };
 }
 
-- (MAAutoLayoutMaker * _Nonnull (^)(CGFloat))kf_equal{
+- (MAAutoLayoutMaker * _Nonnull (^)(CGFloat))ma_equal{
     return ^id(CGFloat constant) {
         return self.equalToWithRelation(@(constant), NSLayoutRelationEqual);
     };
 }
 
-- (MAAutoLayoutMaker * _Nonnull (^)(CGFloat))kf_greaterThanOrEqual{
+- (MAAutoLayoutMaker * _Nonnull (^)(CGFloat))ma_greaterThanOrEqual{
     return ^id(CGFloat constant) {
         return self.equalToWithRelation(@(constant), NSLayoutRelationGreaterThanOrEqual);
     };
 }
 
-- (MAAutoLayoutMaker * _Nonnull (^)(CGFloat))kf_lessThanOrEqual{
+- (MAAutoLayoutMaker * _Nonnull (^)(CGFloat))ma_lessThanOrEqual{
     return ^id(CGFloat constant) {
         return self.equalToWithRelation(@(constant), NSLayoutRelationLessThanOrEqual);
     };

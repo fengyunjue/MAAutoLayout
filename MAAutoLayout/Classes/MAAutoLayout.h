@@ -29,9 +29,9 @@
 - (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(id _Nonnull attr))greaterThanOrEqualTo;
 - (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(id _Nonnull attr))lessThanOrEqualTo;
 // 赋值
-- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(CGFloat constant))kf_equal;
-- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(CGFloat constant))kf_greaterThanOrEqual;
-- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(CGFloat constant))kf_lessThanOrEqual;
+- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(CGFloat constant))ma_equal;
+- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(CGFloat constant))ma_greaterThanOrEqual;
+- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(CGFloat constant))ma_lessThanOrEqual;
 // 倍数
 - (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(CGFloat multiplier))multiplier;
 // 权重
