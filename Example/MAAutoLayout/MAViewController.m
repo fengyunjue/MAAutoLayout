@@ -24,16 +24,19 @@
     view.backgroundColor = [UIColor redColor];
     [self.view addSubview:view];
     
+    UIView *view1 = [[UIView alloc] init];
+    view1.backgroundColor = [UIColor blueColor];
+    [self.view addSubview:view1];
+    
     [view ma_makeConstraints:^(MAAutoLayout * _Nonnull make) {
         make.top.equalTo(self.view).offset(10);
         make.left.equalTo(self.view).offset(10);
         make.bottom.equalTo(self.view).offset(-10);
         make.right.equalTo(self.view).offset(-10);
     }];
-//    [view mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.left.right.bottom.equalTo(self.view).offset(10);
-////        make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(10, 10, 10, 10));
-//    }];
+    [view1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(view).insets(UIEdgeInsetsMake(10, 10,10,10));
+    }];
 }
 
 - (void)didReceiveMemoryWarning
