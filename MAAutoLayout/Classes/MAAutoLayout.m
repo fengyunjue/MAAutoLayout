@@ -335,6 +335,16 @@ static char kInstalledMAAutoLayoutKey;
     return safeInsets;
 }
 
++ (UIEdgeInsets)ma_rootSafeAreaInsets{
+    UIEdgeInsets safeInsets = UIEdgeInsetsZero;
+#ifdef __IPHONE_11_0
+    if (@available(iOS 11.0, *)) {
+        safeInsets = [[UIApplication sharedApplication] delegate].window.safeAreaInsets;
+    }
+#endif
+    return safeInsets;
+}
+
 #pragma mark - private
 - (MAViewAttribute *)ma_viewAttribute:(NSLayoutAttribute)layoutAttribute {
     return [[MAViewAttribute alloc] initWithItem:self layoutAttribute:layoutAttribute];

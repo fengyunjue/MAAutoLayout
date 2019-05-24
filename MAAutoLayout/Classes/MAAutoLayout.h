@@ -91,6 +91,7 @@
 - (void)ma_remakeConstraints:(void(^_Nonnull)(MAAutoLayout * _Nonnull make))make;
 
 - (UIEdgeInsets)ma_safeAreaInsets;
++ (UIEdgeInsets)ma_rootSafeAreaInsets;
 
 @end
 
