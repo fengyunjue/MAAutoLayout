@@ -264,6 +264,10 @@ static char kInstalledMAAutoLayoutKey;
     [self ma_makeConstraints:make];
 }
 
+- (void)ma_removeConstraints{
+    [self.ma_layout deactivate];
+}
+
 - (MAViewAttribute *)ma_left{
     return [self ma_viewAttribute:NSLayoutAttributeLeft];
 }
