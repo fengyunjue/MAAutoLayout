@@ -109,3 +109,38 @@
 @property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_safeAreaBottomLayoutGuide;
 
 @end
+
+
+@interface MAAutoLayoutMakers : NSObject
+
+@property (nullable, nonatomic,strong, readonly) NSArray <MAAutoLayoutMaker *>*layoutMarkers;
+@property (nullable, nonatomic,strong, readonly) NSArray <NSLayoutConstraint *>*layoutConstraints;
+- (nonnull instancetype)initWithFirstItem:(nonnull id)firstItem attributes:(NSArray *_Nonnull)attributes;
+// 偏移量
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(CGFloat offset))offset;
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(UIEdgeInsets insets))insets;
+
+// 关系
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(id _Nonnull attr))equalTo;
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(id _Nonnull attr))greaterThanOrEqualTo;
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(id _Nonnull attr))lessThanOrEqualTo;
+
+- (BOOL)isActive;
+
+- (nonnull NSArray <NSLayoutConstraint *>*)active;
+- (void)deactivate;
+@end
+@interface MAAutoLayout (MAConvenience)
+
+@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull leftRight;
+@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull topBottom;
+@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull size;
+@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull topLeft;
+@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull topRight;
+@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull bottomLeft;
+@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull bottomRight;
+@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull edge;
+@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull topLeftRight;
+@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull bottomLeftRight;
+
+@end
