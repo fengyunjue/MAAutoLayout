@@ -1,5 +1,5 @@
 PODS:
-  - MAAutoLayout (1.3)
+  - MAAutoLayout (1.6)
   - Masonry (1.1.0)
 
 DEPENDENCIES:
@@ -15,7 +15,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  MAAutoLayout: 11bca4c9079ecb9ca17dd88c86a259dd8a83e67a
+  MAAutoLayout: d7b48c522708ae44af24bffd9ce7b9a0e09f33fc
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
 
 PODFILE CHECKSUM: cd1daea191f88722ec84235d695c52d2c109589e

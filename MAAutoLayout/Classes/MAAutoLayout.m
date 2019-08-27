@@ -479,6 +479,24 @@ static char kInstalledMAAutoLayoutKey;
     };
 }
 
+- (MAAutoLayoutMakers * _Nonnull (^)(CGFloat))ma_equal{
+    return ^id(CGFloat constant) {
+        return self.equalToWithRelation(@(constant), NSLayoutRelationEqual);
+    };
+}
+
+- (MAAutoLayoutMakers * _Nonnull (^)(CGFloat))ma_greaterThanOrEqual{
+    return ^id(CGFloat constant) {
+        return self.equalToWithRelation(@(constant), NSLayoutRelationGreaterThanOrEqual);
+    };
+}
+
+- (MAAutoLayoutMakers * _Nonnull (^)(CGFloat))ma_lessThanOrEqual{
+    return ^id(CGFloat constant) {
+        return self.equalToWithRelation(@(constant), NSLayoutRelationLessThanOrEqual);
+    };
+}
+
 - (MAAutoLayoutMakers * _Nonnull (^)(UILayoutPriority))priority{
     return ^(UILayoutPriority priority) {
         self.priorityValue = priority;
@@ -528,12 +546,15 @@ static char kInstalledMAAutoLayoutKey;
 }
 
 #pragma mark private
-- (MAAutoLayoutMaker * (^)(id, NSLayoutRelation))equalToWithRelation {
+- (MAAutoLayoutMakers * (^)(id, NSLayoutRelation))equalToWithRelation {
     return ^id(id attribute, NSLayoutRelation relation) {
         if ([attribute isKindOfClass:[UIView class]]) {
             self.secondItem = attribute;
+        }else if ([attribute isKindOfClass:[NSNumber class]]){
+            self.secondItem = nil;
+            self.insetsValue = UIEdgeInsetsMake(((NSNumber *)attribute).floatValue, 0, 0, 0);
         }else{
-            NSAssert(attribute, @"格式不正确,必须是UIView或MAAutoLayoutMaker或NSNumber");
+            NSAssert(attribute, @"格式不正确,必须是UIView或NSNumber");
         }
         self.relation = relation;
         return self;
@@ -556,7 +577,7 @@ static char kInstalledMAAutoLayoutKey;
 }
 -(MAAutoLayoutMakers *)size {
     return [self addConstraintWithLayoutAttributes:@[@(NSLayoutAttributeWidth),@(NSLayoutAttributeHeight)]];
-
+    
 }
 - (MAAutoLayoutMakers *)topLeft{
     return [self addConstraintWithLayoutAttributes:@[@(NSLayoutAttributeTop),@(NSLayoutAttributeLeft)]];
@@ -566,11 +587,11 @@ static char kInstalledMAAutoLayoutKey;
 }
 -(MAAutoLayoutMakers *)bottomLeft {
     return [self addConstraintWithLayoutAttributes:@[@(NSLayoutAttributeBottom),@(NSLayoutAttributeLeft)]];
-
+    
 }
 -(MAAutoLayoutMakers *)bottomRight {
     return [self addConstraintWithLayoutAttributes:@[@(NSLayoutAttributeBottom),@(NSLayoutAttributeRight)]];
-
+    
 }
 -(MAAutoLayoutMakers *)edge {
     return [self addConstraintWithLayoutAttributes:@[@(NSLayoutAttributeTop),@(NSLayoutAttributeLeft),@(NSLayoutAttributeRight),@(NSLayoutAttributeBottom)]];

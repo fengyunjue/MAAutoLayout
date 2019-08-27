@@ -125,6 +125,11 @@
 - (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(id _Nonnull attr))greaterThanOrEqualTo;
 - (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(id _Nonnull attr))lessThanOrEqualTo;
 
+// 赋值
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(CGFloat constant))ma_equal;
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(CGFloat constant))ma_greaterThanOrEqual;
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(CGFloat constant))ma_lessThanOrEqual;
+
 - (BOOL)isActive;
 
 - (nonnull NSArray <NSLayoutConstraint *>*)active;
