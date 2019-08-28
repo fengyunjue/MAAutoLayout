@@ -140,6 +140,7 @@
 @property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull leftRight;
 @property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull topBottom;
 @property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull size;
+@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull center;
 @property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull topLeft;
 @property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull topRight;
 @property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull bottomLeft;

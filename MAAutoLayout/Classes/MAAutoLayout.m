@@ -577,7 +577,9 @@ static char kInstalledMAAutoLayoutKey;
 }
 -(MAAutoLayoutMakers *)size {
     return [self addConstraintWithLayoutAttributes:@[@(NSLayoutAttributeWidth),@(NSLayoutAttributeHeight)]];
-    
+}
+-(MAAutoLayoutMakers *)center {
+    return [self addConstraintWithLayoutAttributes:@[@(NSLayoutAttributeCenterX),@(NSLayoutAttributeCenterY)]];
 }
 - (MAAutoLayoutMakers *)topLeft{
     return [self addConstraintWithLayoutAttributes:@[@(NSLayoutAttributeTop),@(NSLayoutAttributeLeft)]];
