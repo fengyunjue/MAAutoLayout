@@ -1,6 +1,6 @@
 {
   "name": "MAAutoLayout",
-  "version": "1.6",
+  "version": "1.6.2",
   "summary": "简单的autoLayout的系统封装",
   "description": "通过简单的代码完成autoLayout的系统封装，让autoLayout更简洁，同时引入的代码最少。",
   "homepage": "https://github.com/fengyunjue/MAAutoLayout",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/fengyunjue/MAAutoLayout.git",
-    "tag": "1.6"
+    "tag": "1.6.2"
   },
   "platforms": {
     "ios": "8.0"

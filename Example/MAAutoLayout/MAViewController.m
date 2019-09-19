@@ -12,6 +12,10 @@
 
 @interface MAViewController ()
 
+@property (nonatomic, weak) UIView *view0;
+@property (nonatomic, weak) UIView *view1;
+@property (nonatomic, weak) UIView *view2;
+
 @end
 
 @implementation MAViewController
@@ -23,14 +27,17 @@
     UIView *view = [[UIView alloc] init];
     view.backgroundColor = [UIColor redColor];
     [self.view addSubview:view];
+    self.view0 = view;
     
     UIView *view1 = [[UIView alloc] init];
     view1.backgroundColor = [UIColor blueColor];
     [self.view addSubview:view1];
+    self.view1 = view1;
     
     UIView *view2 = [[UIView alloc] init];
     view2.backgroundColor = [UIColor purpleColor];
     [self.view addSubview:view2];
+    self.view2 = view2;
     
     [view ma_makeConstraints:^(MAAutoLayout * _Nonnull make) {
         make.top.equalTo(self.view).offset(10);
@@ -43,6 +50,12 @@
     }];
     [view2 ma_makeConstraints:^(MAAutoLayout * _Nonnull make) {
         make.edge.equalTo(view1).insets(UIEdgeInsetsMake(10, 10, -10, -10));
+    }];
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self.view2 ma_remakeConstraints:^(MAAutoLayout * _Nonnull make) {
+        make.edge.equalTo(self.view1).insets(UIEdgeInsetsMake(80, 80, -80, -80));
     }];
 }
 

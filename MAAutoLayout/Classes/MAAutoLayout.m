@@ -539,8 +539,8 @@ static char kInstalledMAAutoLayoutKey;
 }
 
 - (void)deactivate{
-    if (self.layoutConstraints.count > 0) {
-        [self.layoutConstraints makeObjectsPerformSelector:@selector(setActive:) withObject:@(NO)];
+    for (NSLayoutConstraint *layoutConstraint in self.layoutConstraints) {
+        layoutConstraint.active = NO;
     }
     self.layoutConstraints = nil;
 }
