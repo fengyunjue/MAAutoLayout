@@ -604,5 +604,10 @@ static char kInstalledMAAutoLayoutKey;
 -(MAAutoLayoutMakers *)bottomLeftRight {
     return [self addConstraintWithLayoutAttributes:@[@(NSLayoutAttributeLeft),@(NSLayoutAttributeBottom),@(NSLayoutAttributeRight)]];
 }
-
+-(MAAutoLayoutMakers *)leftTopBottom {
+    return [self addConstraintWithLayoutAttributes:@[@(NSLayoutAttributeLeft),@(NSLayoutAttributeTop),@(NSLayoutAttributeBottom)]];
+}
+-(MAAutoLayoutMakers *)rightTopBottom {
+    return [self addConstraintWithLayoutAttributes:@[@(NSLayoutAttributeRight),@(NSLayoutAttributeTop),@(NSLayoutAttributeBottom)]];
+}
 @end
