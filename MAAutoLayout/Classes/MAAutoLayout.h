@@ -127,6 +127,7 @@
 
 // 赋值
 - (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(CGFloat constant))ma_equal;
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(CGFloat width, CGFloat height))ma_equalSize;
 - (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(CGFloat constant))ma_greaterThanOrEqual;
 - (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(CGFloat constant))ma_lessThanOrEqual;
 

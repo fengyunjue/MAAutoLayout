@@ -485,6 +485,12 @@ static char kInstalledMAAutoLayoutKey;
     };
 }
 
+- (MAAutoLayoutMakers * _Nonnull (^)(CGFloat, CGFloat))ma_equalSize{
+    return ^id(CGFloat width, CGFloat height) {
+        return self.equalToWithRelation([NSValue valueWithCGSize:CGSizeMake(width, height)], NSLayoutRelationEqual);
+    };
+}
+
 - (MAAutoLayoutMakers * _Nonnull (^)(CGFloat))ma_greaterThanOrEqual{
     return ^id(CGFloat constant) {
         return self.equalToWithRelation(@(constant), NSLayoutRelationGreaterThanOrEqual);
@@ -517,15 +523,15 @@ static char kInstalledMAAutoLayoutKey;
         for (NSInteger i = 0; i < self.attributes.count; i++) {
             NSLayoutAttribute attribute = [self.attributes[i] integerValue];
             CGFloat constant = 0;
-            if (attribute == NSLayoutAttributeTop) {
+            if (attribute == NSLayoutAttributeTop || attribute == NSLayoutAttributeWidth) {
                 constant = self.insetsValue.top;
-            }else if (attribute == NSLayoutAttributeLeft) {
+            }else if (attribute == NSLayoutAttributeLeft || attribute == NSLayoutAttributeHeight) {
                 constant = self.insetsValue.left;
             }else if (attribute == NSLayoutAttributeRight) {
                 constant = self.insetsValue.right;
             }else if (attribute == NSLayoutAttributeBottom) {
                 constant = self.insetsValue.bottom;
-            }else {
+            }else{
                 constant = self.insetsValue.top;
             }
             NSLayoutConstraint *layoutConstraint = [NSLayoutConstraint constraintWithItem:self.firstItem attribute:attribute relatedBy:self.relation toItem:self.secondItem attribute:attribute multiplier:1.0f constant:constant];
@@ -552,7 +558,11 @@ static char kInstalledMAAutoLayoutKey;
             self.secondItem = attribute;
         }else if ([attribute isKindOfClass:[NSNumber class]]){
             self.secondItem = nil;
-            self.insetsValue = UIEdgeInsetsMake(((NSNumber *)attribute).floatValue, 0, 0, 0);
+            self.insetsValue = UIEdgeInsetsMake(((NSNumber *)attribute).floatValue, ((NSNumber *)attribute).floatValue, 0, 0);
+        }else if ([attribute isKindOfClass:[NSValue class]]) {
+            self.secondItem = nil;
+            CGSize size = [(NSValue *)attribute CGSizeValue];
+            self.insetsValue = UIEdgeInsetsMake(size.width, size.height, 0, 0);
         }else{
             NSAssert(attribute, @"格式不正确,必须是UIView或NSNumber");
         }

@@ -39,6 +39,10 @@
     [self.view addSubview:view2];
     self.view2 = view2;
     
+    UIView *view3 = [[UIView alloc] init];
+    view3.backgroundColor = [UIColor yellowColor];
+    [self.view addSubview:view3];
+    
     [view ma_makeConstraints:^(MAAutoLayout * _Nonnull make) {
         make.top.equalTo(self.view).offset(10);
         make.left.equalTo(self.view).offset(10);
@@ -50,6 +54,10 @@
     }];
     [view2 ma_makeConstraints:^(MAAutoLayout * _Nonnull make) {
         make.edge.equalTo(view1).insets(UIEdgeInsetsMake(10, 10, -10, -10));
+    }];
+    [view3 ma_makeConstraints:^(MAAutoLayout * _Nonnull make) {
+        make.center.equalTo(self.view);
+        make.size.ma_equalSize(100,200);
     }];
 }
 
