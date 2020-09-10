@@ -22,6 +22,7 @@
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
+		848462052509F79200310D80 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848462042509F79200310D80 /* ViewController.swift */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		95BDFD23A458CD8F959F9C62 /* Pods_MAAutoLayout_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 236394FFC7E090B193A7E75B /* Pods_MAAutoLayout_Tests.framework */; };
 /* End PBXBuildFile section */
@@ -63,6 +64,8 @@
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		627A779C485490B0D2E30906 /* Pods-MAAutoLayout_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MAAutoLayout_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MAAutoLayout_Tests/Pods-MAAutoLayout_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		848462032509F79200310D80 /* MAAutoLayout_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MAAutoLayout_Example-Bridging-Header.h"; sourceTree = "<group>"; };
+		848462042509F79200310D80 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BFF75E7D36FA8448579827E9 /* MAAutoLayout.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = MAAutoLayout.podspec; path = ../MAAutoLayout.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		FA64B6828E5FFCCDD6E3C370 /* Pods-MAAutoLayout_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MAAutoLayout_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-MAAutoLayout_Example/Pods-MAAutoLayout_Example.release.xcconfig"; sourceTree = "<group>"; };
@@ -137,9 +140,11 @@
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
 				6003F5A5195388D20070C39A /* MAViewController.h */,
 				6003F5A6195388D20070C39A /* MAViewController.m */,
+				848462042509F79200310D80 /* ViewController.swift */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
+				848462032509F79200310D80 /* MAAutoLayout_Example-Bridging-Header.h */,
 			);
 			name = "Example for MAAutoLayout";
 			path = MAAutoLayout;
@@ -249,6 +254,7 @@
 				TargetAttributes = {
 					6003F589195388D20070C39A = {
 						DevelopmentTeam = WBB6368FVN;
+						LastSwiftMigration = 1170;
 					};
 					6003F5AD195388D20070C39A = {
 						TestTargetID = 6003F589195388D20070C39A;
@@ -362,6 +368,7 @@
 			files = (
 				6003F59E195388D20070C39A /* MAAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* MAViewController.m in Sources */,
+				848462052509F79200310D80 /* ViewController.swift in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -518,14 +525,19 @@
 			baseConfigurationReference = FAF52416AF0C879342AA8A61 /* Pods-MAAutoLayout_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = WBB6368FVN;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MAAutoLayout/MAAutoLayout-Prefix.pch";
 				INFOPLIST_FILE = "MAAutoLayout/MAAutoLayout-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MAAutoLayout/MAAutoLayout_Example-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -535,14 +547,18 @@
 			baseConfigurationReference = FA64B6828E5FFCCDD6E3C370 /* Pods-MAAutoLayout_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = WBB6368FVN;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MAAutoLayout/MAAutoLayout-Prefix.pch";
 				INFOPLIST_FILE = "MAAutoLayout/MAAutoLayout-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MAAutoLayout/MAAutoLayout_Example-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -551,6 +567,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 627A779C485490B0D2E30906 /* Pods-MAAutoLayout_Tests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -575,6 +592,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1F4DD4685CC76412258F4ACC /* Pods-MAAutoLayout_Tests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
