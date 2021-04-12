@@ -21,33 +21,40 @@
 
 @property (nullable, nonatomic,strong, readonly) NSLayoutConstraint *layoutConstraint;
 
-- (nonnull instancetype)initWithFirstItem:(nonnull id)firstItem firstAttribute:(NSLayoutAttribute)firstAttribute;
+- (nonnull instancetype)initWithFirstItem:(nonnull UIView *)firstItem firstAttribute:(NSLayoutAttribute)firstAttribute;
 // 偏移量
-- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(CGFloat offset))offset;
+- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(CGFloat offset))offset NS_SWIFT_UNAVAILABLE("use offset:");
 - (MAAutoLayoutMaker *_Nonnull)offset:(CGFloat)offset NS_SWIFT_NAME(offset(_:));
 // 关系
-- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(id _Nonnull attr))equalTo;
+- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(id _Nonnull attr))equalTo NS_SWIFT_UNAVAILABLE("use equalTo:");
 - (MAAutoLayoutMaker *_Nonnull)equalTo:(NSObject *_Nonnull)attr NS_SWIFT_NAME(equalTo(_:));
 
-- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(id _Nonnull attr))greaterThanOrEqualTo;
+- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(id _Nonnull attr))greaterThanOrEqualTo NS_SWIFT_UNAVAILABLE("use greaterThanOrEqualTo:");
 - (MAAutoLayoutMaker *_Nonnull)greaterThanOrEqualTo:(NSObject * _Nonnull)attr NS_SWIFT_NAME(greaterThanOrEqualTo(_:));
 
-- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(id _Nonnull attr))lessThanOrEqualTo;
+- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(id _Nonnull attr))lessThanOrEqualTo NS_SWIFT_UNAVAILABLE("use lessThanOrEqualTo:");
 - (MAAutoLayoutMaker *_Nonnull)lessThanOrEqualTo:(NSObject * _Nonnull)attr NS_SWIFT_NAME(lessThanOrEqualTo(_:));
+
+// 关系 superview
+- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(void))equalToSuperView NS_SWIFT_UNAVAILABLE("swift unavailable");
+- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(void))greaterThanOrEqualToSuperView NS_SWIFT_UNAVAILABLE("swift unavailable");
+- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(void))lessThanOrEqualToSuperView NS_SWIFT_UNAVAILABLE("swift unavailable");
+
+
 // 赋值
-- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(CGFloat constant))ma_equal;
+- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(CGFloat constant))ma_equal NS_SWIFT_UNAVAILABLE("use ma_equal:");
 - (MAAutoLayoutMaker *_Nonnull)ma_equal:(CGFloat)constant NS_SWIFT_NAME(ma_equal(_:));
 
-- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(CGFloat constant))ma_greaterThanOrEqual;
+- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(CGFloat constant))ma_greaterThanOrEqual NS_SWIFT_UNAVAILABLE("use ma_greaterThanOrEqual:");
 - (MAAutoLayoutMaker *_Nonnull)ma_greaterThanOrEqual:(CGFloat)constant NS_SWIFT_NAME(ma_greaterThanOrEqual(_:));
 
-- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(CGFloat constant))ma_lessThanOrEqual;
+- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(CGFloat constant))ma_lessThanOrEqual NS_SWIFT_UNAVAILABLE("use ma_lessThanOrEqual:");
 - (MAAutoLayoutMaker *_Nonnull)ma_lessThanOrEqual:(CGFloat)constant NS_SWIFT_NAME(ma_lessThanOrEqual(_:));
 // 倍数
-- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(CGFloat multiplier))multiplier;
+- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(CGFloat multiplier))multiplier NS_SWIFT_UNAVAILABLE("use multiplier:");
 - (MAAutoLayoutMaker *_Nonnull)multiplier:(CGFloat)multiplier NS_SWIFT_NAME(multiplier(_:));
 // 权重
-- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(UILayoutPriority priority))priority;
+- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(UILayoutPriority priority))priority NS_SWIFT_UNAVAILABLE("use priority:");
 - (MAAutoLayoutMaker *_Nonnull)priority:(UILayoutPriority)priority NS_SWIFT_NAME(priority(_:));
 
 - (BOOL)isActive;
@@ -130,36 +137,43 @@
 @property (nullable, nonatomic,strong, readonly) NSArray <NSLayoutConstraint *>*layoutConstraints;
 - (nonnull instancetype)initWithFirstItem:(nonnull id)firstItem attributes:(NSArray *_Nonnull)attributes;
 // 偏移量
-- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(CGFloat offset))offset;
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(CGFloat offset))offset NS_SWIFT_UNAVAILABLE("use offset:");
 - (MAAutoLayoutMakers *_Nonnull)offset:(CGFloat)offset NS_SWIFT_NAME(offset(_:));
 
-- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(UIEdgeInsets insets))insets;
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(UIEdgeInsets insets))insets NS_SWIFT_UNAVAILABLE("use insets:");
 - (MAAutoLayoutMakers *_Nonnull)insets:(UIEdgeInsets)insets NS_SWIFT_NAME(insets(_:));
 
 // 关系
-- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(id _Nonnull attr))equalTo;
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(id _Nonnull attr))equalTo NS_SWIFT_UNAVAILABLE("use equalTo:");
 - (MAAutoLayoutMakers *_Nonnull)equalTo:(NSObject * _Nonnull)attr NS_SWIFT_NAME(equalTo(_:));
 
-- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(id _Nonnull attr))greaterThanOrEqualTo;
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(id _Nonnull attr))greaterThanOrEqualTo NS_SWIFT_UNAVAILABLE("use greaterThanOrEqualTo:");
 - (MAAutoLayoutMakers *_Nonnull)greaterThanOrEqualTo:(NSObject * _Nonnull)attr NS_SWIFT_NAME(greaterThanOrEqualTo(_:));
 
-- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(id _Nonnull attr))lessThanOrEqualTo;
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(id _Nonnull attr))lessThanOrEqualTo NS_SWIFT_UNAVAILABLE("use lessThanOrEqualTo:");
 - (MAAutoLayoutMakers *_Nonnull)lessThanOrEqualTo:(NSObject * _Nonnull)attr NS_SWIFT_NAME(lessThanOrEqualTo(_:));
 
+// 关系 superview
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(void))equalToSuperView NS_SWIFT_UNAVAILABLE("swift unavailable");
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(void))greaterThanOrEqualToSuperView NS_SWIFT_UNAVAILABLE("swift unavailable");
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(void))lessThanOrEqualToSuperView NS_SWIFT_UNAVAILABLE("swift unavailable");
+
+
+
 // 赋值
-- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(CGFloat constant))ma_equal;
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(CGFloat constant))ma_equal NS_SWIFT_UNAVAILABLE("use ma_equal:");
 - (MAAutoLayoutMakers *_Nonnull)ma_equal:(CGFloat)constant NS_SWIFT_NAME(ma_equal(_:));
 
-- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(CGFloat width, CGFloat height))ma_equalSize;
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(CGFloat width, CGFloat height))ma_equalSize NS_SWIFT_UNAVAILABLE("use ma_equalSize:height:");
 - (MAAutoLayoutMakers *_Nonnull)ma_equalSize:(CGFloat)width height:(CGFloat)height NS_SWIFT_NAME(ma_equalSize(_:_:));
 
-- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(CGFloat constant))ma_greaterThanOrEqual;
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(CGFloat constant))ma_greaterThanOrEqual NS_SWIFT_UNAVAILABLE("use ma_greaterThanOrEqual:");
 - (MAAutoLayoutMakers *_Nonnull)ma_greaterThanOrEqual:(CGFloat)constant NS_SWIFT_NAME(ma_greaterThanOrEqual(_:));
 
-- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(CGFloat constant))ma_lessThanOrEqual;
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(CGFloat constant))ma_lessThanOrEqual NS_SWIFT_UNAVAILABLE("use ma_lessThanOrEqual:");
 - (MAAutoLayoutMaker *_Nonnull)ma_lessThanOrEqual:(CGFloat)constant NS_SWIFT_NAME(ma_lessThanOrEqual(_:));
 
-- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(UILayoutPriority priority))priority;
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(UILayoutPriority priority))priority NS_SWIFT_UNAVAILABLE("use priority:");
 - (MAAutoLayoutMakers *_Nonnull)priority:(UILayoutPriority)priority NS_SWIFT_NAME(priority(_:));
 
 - (BOOL)isActive;

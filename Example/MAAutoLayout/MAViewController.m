@@ -43,7 +43,7 @@
         make.edge.equalTo(self.view1).insets(UIEdgeInsetsMake(10, 10, -10, -10));
     }];
     [self.view3 ma_makeConstraints:^(MAAutoLayout * _Nonnull make) {
-        make.center.equalTo(self.view);
+        make.center.equalToSuperView();
         make.size.ma_equalSize(100,200);
     }];
 }

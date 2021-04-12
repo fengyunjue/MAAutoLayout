@@ -24,7 +24,7 @@
 
 @interface MAAutoLayoutMaker()
 
-@property (nullable, nonatomic,weak) id firstItem;
+@property (nullable, nonatomic,weak) UIView *firstItem;
 @property (nonatomic, assign) NSLayoutAttribute firstAttribute;
 @property (nullable, nonatomic,weak) id secondItem;
 @property (nonatomic, assign) NSLayoutAttribute secondAttribute;
@@ -40,7 +40,7 @@
 
 @implementation MAAutoLayoutMaker
 
-- (instancetype)initWithFirstItem:(id)firstItem firstAttribute:(NSLayoutAttribute)firstAttribute{
+- (instancetype)initWithFirstItem:(UIView *)firstItem firstAttribute:(NSLayoutAttribute)firstAttribute{
     self = [super init];
     if (!self) return nil;
     
@@ -91,6 +91,23 @@
 -(MAAutoLayoutMaker *)lessThanOrEqualTo:(NSObject *)attr{
     return self.lessThanOrEqualTo(attr);
 }
+
+- (MAAutoLayoutMaker * _Nonnull (^)(void))equalToSuperView{
+    return ^id() {
+        return self.equalToWithRelation(self.firstItem.superview, NSLayoutRelationEqual);
+    };
+}
+- (MAAutoLayoutMaker * _Nonnull (^)(void))greaterThanOrEqualToSuperView{
+    return ^id() {
+        return self.equalToWithRelation(self.firstItem.superview, NSLayoutRelationGreaterThanOrEqual);
+    };
+}
+- (MAAutoLayoutMaker * _Nonnull (^)(void))lessThanOrEqualToSuperView{
+    return ^id() {
+        return self.equalToWithRelation(self.firstItem.superview, NSLayoutRelationLessThanOrEqual);
+    };
+}
+
 
 - (MAAutoLayoutMaker * _Nonnull (^)(CGFloat))ma_equal{
     return ^id(CGFloat constant) {
@@ -448,7 +465,7 @@ static char kInstalledMAAutoLayoutKey;
 
 @interface MAAutoLayoutMakers()
 
-@property (nullable, nonatomic,weak) id firstItem;
+@property (nullable, nonatomic,weak) UIView *firstItem;
 @property (nonatomic, strong) NSArray *attributes;
 @property (nullable, nonatomic,weak) id secondItem;
 @property (nonatomic, assign) NSLayoutRelation relation;
@@ -463,7 +480,7 @@ static char kInstalledMAAutoLayoutKey;
 
 @implementation MAAutoLayoutMakers
 
-- (instancetype)initWithFirstItem:(id)firstItem attributes:(NSArray *)attributes {
+- (instancetype)initWithFirstItem:(UIView *)firstItem attributes:(NSArray *)attributes {
     self = [super init];
     if (!self) return nil;
     
@@ -501,6 +518,7 @@ static char kInstalledMAAutoLayoutKey;
         return self.equalToWithRelation(attribute, NSLayoutRelationEqual);
     };
 }
+
 - (MAAutoLayoutMakers *)equalTo:(NSObject *)attr{
     return self.equalTo(attr);
 }
@@ -521,6 +539,22 @@ static char kInstalledMAAutoLayoutKey;
 }
 - (MAAutoLayoutMakers *)lessThanOrEqualTo:(NSObject *)attr{
     return self.lessThanOrEqualTo(attr);
+}
+
+- (MAAutoLayoutMakers * _Nonnull (^)(void))equalToSuperView {
+    return ^id() {
+        return self.equalToWithRelation(self.firstItem.superview, NSLayoutRelationEqual);
+    };
+}
+- (MAAutoLayoutMakers * _Nonnull (^)(void))greaterThanOrEqualToSuperView{
+    return ^id() {
+        return self.equalToWithRelation(self.firstItem.superview, NSLayoutRelationGreaterThanOrEqual);
+    };
+}
+- (MAAutoLayoutMakers * _Nonnull (^)(void))lessThanOrEqualToSuperView{
+    return ^id() {
+        return self.equalToWithRelation(self.firstItem.superview, NSLayoutRelationLessThanOrEqual);
+    };
 }
 
 - (MAAutoLayoutMakers * _Nonnull (^)(CGFloat))ma_equal{
