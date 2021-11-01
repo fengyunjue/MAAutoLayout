@@ -137,8 +137,8 @@
 @property (nullable, nonatomic,strong, readonly) NSArray <NSLayoutConstraint *>*layoutConstraints;
 - (nonnull instancetype)initWithFirstItem:(nonnull id)firstItem attributes:(NSArray *_Nonnull)attributes;
 // 偏移量
-- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(CGFloat offset))offset NS_SWIFT_UNAVAILABLE("use offset:");
-- (MAAutoLayoutMakers *_Nonnull)offset:(CGFloat)offset NS_SWIFT_NAME(offset(_:));
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(CGFloat offsets))offsets NS_SWIFT_UNAVAILABLE("use offsets:");
+- (MAAutoLayoutMakers *_Nonnull)offsets:(CGFloat)offsets NS_SWIFT_NAME(offsets(_:));
 
 - (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(UIEdgeInsets insets))insets NS_SWIFT_UNAVAILABLE("use insets:");
 - (MAAutoLayoutMakers *_Nonnull)insets:(UIEdgeInsets)insets NS_SWIFT_NAME(insets(_:));

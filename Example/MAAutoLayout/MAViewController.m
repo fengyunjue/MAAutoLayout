@@ -50,13 +50,13 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self.view2 ma_remakeConstraints:^(MAAutoLayout * _Nonnull make) {
-        make.edge.equalTo(self.view1).insets(UIEdgeInsetsMake(80, 80, -80, -80));
+        make.edge.equalTo(self.view1).offsets(80);
     }];
     [UIView animateWithDuration:1 animations:^{
         [self.view layoutIfNeeded];
     }completion:^(BOOL finished) {
         [self.view2 ma_remakeConstraints:^(MAAutoLayout * _Nonnull make) {
-            make.edge.equalTo(self.view1).insets(UIEdgeInsetsMake(10, 10, -10, -10));
+            make.edge.equalTo(self.view1).offsets(10);
         }];
         [UIView animateWithDuration:1 animations:^{
             [self.view layoutIfNeeded];

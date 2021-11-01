@@ -493,14 +493,14 @@ static char kInstalledMAAutoLayoutKey;
     return self;
 }
 
-- (MAAutoLayoutMakers *(^)(CGFloat))offset{
-    return ^id(CGFloat offset){
-        self.insetsValue = UIEdgeInsetsMake(offset, offset, offset, offset);
+- (MAAutoLayoutMakers *(^)(CGFloat))offsets{
+    return ^id(CGFloat offsets){
+        self.insetsValue = UIEdgeInsetsMake(offsets, offsets, -offsets, -offsets);
         return self;
     };
 }
-- (MAAutoLayoutMakers *)offset:(CGFloat)offset{
-    return self.offset(offset);
+- (MAAutoLayoutMakers *)offsets:(CGFloat)offsets{
+    return self.offsets(offsets);
 }
 
 - (MAAutoLayoutMakers * _Nonnull (^)(UIEdgeInsets))insets{
