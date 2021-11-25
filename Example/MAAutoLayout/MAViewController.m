@@ -16,6 +16,7 @@
 @property (nonatomic, strong) UIView *view1;
 @property (nonatomic, strong) UIView *view2;
 @property (nonatomic, strong) UIView *view3;
+@property (nonatomic, strong) UILabel *titleLabel;
 
 @end
 
@@ -29,6 +30,7 @@
     [self.view addSubview:self.view1];
     [self.view addSubview:self.view2];
     [self.view addSubview:self.view3];
+    [self.view addSubview:self.titleLabel];
     
     [self.view0 ma_makeConstraints:^(MAAutoLayout * _Nonnull make) {
         make.top.equalTo(self.view.ma_safeAreaLayoutGuideTop).offset(10);
@@ -43,21 +45,56 @@
         make.edge.equalTo(self.view1).insets(UIEdgeInsetsMake(10, 10, -10, -10));
     }];
     [self.view3 ma_makeConstraints:^(MAAutoLayout * _Nonnull make) {
-        make.center.equalToSuperView();
+        make.center.equalTo(self.view2);
         make.size.ma_equalSize(100,200);
     }];
+
+    [self.titleLabel ma_makeConstraints:^(MAAutoLayout * _Nonnull make) {
+        make.top.equalTo(self.view2).offset(20);
+        make.leftRight.equalTo(self.view).offsets(50);
+    }];
+
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [self.view2 ma_remakeConstraints:^(MAAutoLayout * _Nonnull make) {
-        make.edge.equalTo(self.view1).offsets(80);
+    
+    self.view0.ma_topMaker.layoutConstraint.constant = 20;
+    
+    self.view2.ma_topMaker.layoutConstraint.constant = 80;
+    self.view2.ma_leftMaker.layoutConstraint.constant = 80;
+    self.view2.ma_rightMaker.layoutConstraint.constant = -80;
+    self.view2.ma_bottomMaker.layoutConstraint.constant = -80;
+    
+    self.view3.ma_widthMaker.layoutConstraint.constant = 150;
+    
+    [self.titleLabel ma_updateConstraints:^(MAAutoLayout * _Nonnull newMake) {
+        newMake.height.ma_equal(300);
     }];
+    
+    [self.view0 ma_updateConstraints:^(MAAutoLayout * _Nonnull newMake) {
+        newMake.bottom.equalTo(self.view.ma_bottom).offset(-100);
+    }];
+    
     [UIView animateWithDuration:1 animations:^{
         [self.view layoutIfNeeded];
     }completion:^(BOOL finished) {
-        [self.view2 ma_remakeConstraints:^(MAAutoLayout * _Nonnull make) {
-            make.edge.equalTo(self.view1).offsets(10);
+        
+        self.view2.ma_topMaker.layoutConstraint.constant = 20;
+        self.view2.ma_leftMaker.layoutConstraint.constant = 20;
+        self.view2.ma_rightMaker.layoutConstraint.constant = -20;
+        self.view2.ma_bottomMaker.layoutConstraint.constant = -20;
+        
+        self.view3.ma_heightMaker.layoutConstraint.constant = 150;
+        
+        [self.titleLabel ma_remakeConstraints:^(MAAutoLayout * _Nonnull make) {
+            make.top.equalTo(self.view2).offset(20);
+            make.leftRight.equalTo(self.view).offsets(20);
         }];
+
+        [self.view0 ma_updateConstraints:^(MAAutoLayout * _Nonnull newMake) {
+            newMake.bottom.equalTo(self.view.ma_safeAreaLayoutGuideBottom).offset(-10);
+        }];
+        
         [UIView animateWithDuration:1 animations:^{
             [self.view layoutIfNeeded];
         }];
@@ -104,4 +141,15 @@
     return _view3;
 }
 
+
+- (UILabel *)titleLabel{
+    if(!_titleLabel){
+        _titleLabel = [[UILabel alloc]init];
+        _titleLabel.text = @"MAAutoLayout is a sample Code for AutoLayout";
+        _titleLabel.backgroundColor = [UIColor whiteColor];
+        _titleLabel.numberOfLines = 0;
+        _titleLabel.textAlignment = NSTextAlignmentCenter;
+    }
+    return _titleLabel;
+}
 @end

@@ -6,15 +6,90 @@
 //
 
 #import <UIKit/UIKit.h>
+@class MAViewAttribute, MAAutoLayoutMaker, MAAutoLayoutMakers;
 
-#pragma mark - view属性
-@interface MAViewAttribute: NSObject
+@interface MAAutoLayout : NSObject
 
-@property (nonatomic, weak, readonly) id _Nullable item;
-@property (nonatomic, assign, readonly) NSLayoutAttribute layoutAttribute;
-- (id _Nonnull )initWithItem:(id _Nullable )item layoutAttribute:(NSLayoutAttribute)layoutAttribute;
+- (nonnull instancetype)initWithView:(UIView * _Nonnull)view;
+
+// 基本操作
+@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nonnull left;
+@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nonnull top;
+@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nonnull right;
+@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nonnull bottom;
+@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nonnull leading;
+@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nonnull trailing;
+@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nonnull width;
+@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nonnull height;
+@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nonnull centerX;
+@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nonnull centerY;
+@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nonnull baseline;
+
+// 便利方法
+@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull leftRight;
+@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull topBottom;
+@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull size;
+@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull center;
+@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull topLeft;
+@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull topRight;
+@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull bottomLeft;
+@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull bottomRight;
+@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull edge;
+@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull topLeftRight;
+@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull bottomLeftRight;
+@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull leftTopBottom;
+@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull rightTopBottom;
+
+// 激活
+- (void)active;
+// 取消
+- (void)deactivate;
 
 @end
+
+@interface UIView (MAAutoLayout)
+
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_left;
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_top;
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_right;
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_bottom;
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_leading;
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_trailing;
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_width;
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_height;
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_centerX;
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_centerY;
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_baseline;
+
+//iOS11 safeArea
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_safeAreaLayoutGuideTop;
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_safeAreaLayoutGuideBottom;
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_safeAreaLayoutGuideLeft;
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_safeAreaLayoutGuideRight;
+
+- (void)ma_makeConstraints:(void(^_Nonnull)(MAAutoLayout * _Nonnull make))make;
+- (void)ma_remakeConstraints:(void(^_Nonnull)(MAAutoLayout * _Nonnull make))make;
+- (void)ma_updateConstraints:(void (^_Nonnull)(MAAutoLayout * _Nonnull newMake))make;
+- (void)ma_removeConstraints;
+
+- (MAAutoLayoutMaker *_Nonnull)ma_layoutMakerWithLayoutAttribute:(NSLayoutAttribute)layoutAttribute;
+
+@end
+
+@interface UIViewController (MAAutoLayout)
+
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_topLayoutGuide;
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_bottomLayoutGuide;
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_topLayoutGuideTop;
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_topLayoutGuideBottom;
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_bottomLayoutGuideTop;
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_bottomLayoutGuideBottom;
+
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_safeAreaTopLayoutGuide;
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_safeAreaBottomLayoutGuide;
+
+@end
+
 
 #pragma mark - autolayout操作
 @interface MAAutoLayoutMaker : NSObject
@@ -57,84 +132,15 @@
 - (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(UILayoutPriority priority))priority NS_SWIFT_UNAVAILABLE("use priority:");
 - (MAAutoLayoutMaker *_Nonnull)priority:(UILayoutPriority)priority NS_SWIFT_NAME(priority(_:));
 
-- (BOOL)isActive;
-
 - (nonnull NSLayoutConstraint *)active;
 - (void)deactivate;
-@end
-
-@interface MAAutoLayout : NSObject
-
-- (nonnull instancetype)initWithView:(UIView * _Nonnull)view;
-
-// 基本操作
-@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nonnull left;
-@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nonnull top;
-@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nonnull right;
-@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nonnull bottom;
-@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nonnull leading;
-@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nonnull trailing;
-@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nonnull width;
-@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nonnull height;
-@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nonnull centerX;
-@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nonnull centerY;
-@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nonnull baseline;
-
-// 激活
-- (void)active;
-// 取消
-- (void)deactivate;
 
 @end
-
-@interface UIView (MAAutoLayout)
-
-@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_left;
-@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_top;
-@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_right;
-@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_bottom;
-@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_leading;
-@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_trailing;
-@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_width;
-@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_height;
-@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_centerX;
-@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_centerY;
-@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_baseline;
-
-//iOS11 safeArea
-@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_safeAreaLayoutGuideTop;
-@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_safeAreaLayoutGuideBottom;
-@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_safeAreaLayoutGuideLeft;
-@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_safeAreaLayoutGuideRight;
-
-- (void)ma_makeConstraints:(void(^_Nonnull)(MAAutoLayout * _Nonnull make))make;
-- (void)ma_remakeConstraints:(void(^_Nonnull)(MAAutoLayout * _Nonnull make))make;
-- (void)ma_removeConstraints;
-
-- (UIEdgeInsets)ma_safeAreaInsets;
-+ (UIEdgeInsets)ma_rootSafeAreaInsets;
-
-@end
-
-@interface UIViewController (MAAutoLayout)
-
-@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_topLayoutGuide;
-@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_bottomLayoutGuide;
-@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_topLayoutGuideTop;
-@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_topLayoutGuideBottom;
-@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_bottomLayoutGuideTop;
-@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_bottomLayoutGuideBottom;
-
-@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_safeAreaTopLayoutGuide;
-@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_safeAreaBottomLayoutGuide;
-
-@end
-
 
 @interface MAAutoLayoutMakers : NSObject
 
 @property (nullable, nonatomic,strong, readonly) NSArray <MAAutoLayoutMaker *>*layoutMarkers;
-@property (nullable, nonatomic,strong, readonly) NSArray <NSLayoutConstraint *>*layoutConstraints;
+
 - (nonnull instancetype)initWithFirstItem:(nonnull id)firstItem attributes:(NSArray *_Nonnull)attributes;
 // 偏移量
 - (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(CGFloat offsets))offsets NS_SWIFT_UNAVAILABLE("use offsets:");
@@ -171,30 +177,45 @@
 - (MAAutoLayoutMakers *_Nonnull)ma_greaterThanOrEqual:(CGFloat)constant NS_SWIFT_NAME(ma_greaterThanOrEqual(_:));
 
 - (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(CGFloat constant))ma_lessThanOrEqual NS_SWIFT_UNAVAILABLE("use ma_lessThanOrEqual:");
-- (MAAutoLayoutMaker *_Nonnull)ma_lessThanOrEqual:(CGFloat)constant NS_SWIFT_NAME(ma_lessThanOrEqual(_:));
+- (MAAutoLayoutMakers *_Nonnull)ma_lessThanOrEqual:(CGFloat)constant NS_SWIFT_NAME(ma_lessThanOrEqual(_:));
 
 - (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(UILayoutPriority priority))priority NS_SWIFT_UNAVAILABLE("use priority:");
 - (MAAutoLayoutMakers *_Nonnull)priority:(UILayoutPriority)priority NS_SWIFT_NAME(priority(_:));
 
-- (BOOL)isActive;
-
 - (nonnull NSArray <NSLayoutConstraint *>*)active;
 - (void)deactivate;
-@end
-@interface MAAutoLayout (MAConvenience)
-
-@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull leftRight;
-@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull topBottom;
-@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull size;
-@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull center;
-@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull topLeft;
-@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull topRight;
-@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull bottomLeft;
-@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull bottomRight;
-@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull edge;
-@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull topLeftRight;
-@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull bottomLeftRight;
-@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull leftTopBottom;
-@property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull rightTopBottom;
 
 @end
+
+#pragma mark - view属性
+@interface MAViewAttribute: NSObject
+
+@property (nonatomic, weak, readonly) id _Nullable item;
+@property (nonatomic, assign, readonly) NSLayoutAttribute layoutAttribute;
+
+- (id _Nonnull )initWithItem:(id _Nullable )item layoutAttribute:(NSLayoutAttribute)layoutAttribute;
+
+@end
+
+@interface UIView (MAConvenience)
+
+@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nullable ma_leftMaker;
+@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nullable ma_topMaker;
+@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nullable ma_rightMaker;
+@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nullable ma_bottomMaker;
+@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nullable ma_leadingMaker;
+@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nullable ma_trailingMaker;
+@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nullable ma_widthMaker;
+@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nullable ma_heightMaker;
+@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nullable ma_centerXMaker;
+@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nullable ma_centerYMaker;
+@property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nullable ma_baselineMaker;
+
+- (UIEdgeInsets)ma_safeAreaInsets;
++ (UIEdgeInsets)ma_rootSafeAreaInsets;
+
+// addSpacing
+- (UIView *_Nonnull)ma_addSpacingView:(void(^_Nonnull)(MAAutoLayout * _Nonnull make))make;
+
+@end
+
