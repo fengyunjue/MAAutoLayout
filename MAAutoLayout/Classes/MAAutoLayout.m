@@ -21,6 +21,7 @@
 
 @property (nonatomic,strong) NSLayoutConstraint *layoutConstraint;
 
+- (void)deactivate;
 
 @end
 

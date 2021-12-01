@@ -134,7 +134,6 @@
 - (MAAutoLayoutMaker *_Nonnull)priority:(UILayoutPriority)priority NS_SWIFT_NAME(priority(_:));
 
 - (nonnull NSLayoutConstraint *)active;
-- (void)deactivate;
 
 @end
 
@@ -184,7 +183,6 @@
 - (MAAutoLayoutMakers *_Nonnull)priority:(UILayoutPriority)priority NS_SWIFT_NAME(priority(_:));
 
 - (nonnull NSArray <NSLayoutConstraint *>*)active;
-- (void)deactivate;
 
 @end
 
