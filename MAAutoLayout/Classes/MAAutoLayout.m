@@ -143,9 +143,17 @@
     return maker;
 }
 
-- (void)active{
+- (void)activeAll {
     for (MAAutoLayoutMaker *maker in self.layoutMakers) {
         if (!maker.layoutConstraint.isActive) {
+            [maker active];
+        }
+    }
+}
+
+- (void)activeNew {
+    for (MAAutoLayoutMaker *maker in self.layoutMakers) {
+        if (maker.layoutConstraint == nil) {
             [maker active];
         }
     }
@@ -173,7 +181,7 @@ static char kInstalledMAAutoLayoutKey;
 
 - (void)ma_makeConstraints:(void (^)(MAAutoLayout *))make{
     make(self.ma_layout);
-    [self.ma_layout active];
+    [self.ma_layout activeNew];
 }
 
 - (void)ma_remakeConstraints:(void (^)(MAAutoLayout * _Nonnull))make{
@@ -193,7 +201,7 @@ static char kInstalledMAAutoLayoutKey;
             }
         }
     }
-    [layout active];
+    [layout activeNew];
     [self.ma_layout.layoutMakers removeObjectsInArray:removeArray];
     [self.ma_layout.layoutMakers addObjectsFromArray:layout.layoutMakers];
 }

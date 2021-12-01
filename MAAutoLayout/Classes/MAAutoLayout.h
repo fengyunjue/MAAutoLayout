@@ -41,7 +41,8 @@
 @property (nonatomic, strong, readonly) MAAutoLayoutMakers * _Nonnull rightTopBottom;
 
 // 激活
-- (void)active;
+- (void)activeAll;
+- (void)activeNew;
 // 取消
 - (void)deactivate;
 
