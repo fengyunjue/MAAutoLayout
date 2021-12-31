@@ -23,12 +23,16 @@
 
 - (void)deactivate;
 
+- (instancetype)createNewLayoutMaker;
+
 @end
 
 @interface MAAutoLayout()
 
 @property (nonatomic,strong) NSMutableArray<MAAutoLayoutMaker *> *layoutMakers;
 @property (nonatomic,weak) id view;
+
+@property (nonatomic, strong) NSArray *zeroLayoutMakers;
 
 @end
 
@@ -165,9 +169,76 @@
     [self.layoutMakers removeAllObjects];
 }
 
+- (void)setLayoutZeroWithZeroType:(MAAutoLayoutZeroType)zeroType {
+    [self.zeroLayoutMakers makeObjectsPerformSelector:@selector(deactivate)];
+    self.zeroLayoutMakers = nil;
+    
+    BOOL hasHeight = NO;
+    BOOL hasWidth = NO;
+    NSMutableArray *zeroLayoutMakers = [NSMutableArray array];
+    for (MAAutoLayoutMaker *maker in self.layoutMakers) {
+        maker.layoutConstraint.active = NO;
+        BOOL shouldZero = NO;
+        if ((zeroType&MAAutoLayoutZeroTypeTop) && maker.firstAttribute == NSLayoutAttributeTop) {
+            shouldZero = YES;
+        }else if ((zeroType&MAAutoLayoutZeroTypeLeft) && maker.firstAttribute == NSLayoutAttributeLeft) {
+            shouldZero = YES;
+        }else if ((zeroType&MAAutoLayoutZeroTypeRight) && maker.firstAttribute == NSLayoutAttributeRight) {
+            shouldZero = YES;
+        }else if ((zeroType&MAAutoLayoutZeroTypeBottom) && maker.firstAttribute == NSLayoutAttributeBottom) {
+            shouldZero = YES;
+        }else if ((zeroType&MAAutoLayoutZeroTypeHeight) && maker.firstAttribute == NSLayoutAttributeHeight) {
+            shouldZero = YES;
+            hasHeight = YES;
+        }else if ((zeroType&MAAutoLayoutZeroTypeWidth) && maker.firstAttribute == NSLayoutAttributeWidth) {
+            shouldZero = YES;
+            hasWidth = YES;
+        }
+        MAAutoLayoutMaker *newMaker = [maker createNewLayoutMaker];
+        if (shouldZero) {
+            newMaker.constant = 0;
+        }
+        [newMaker active];
+        [zeroLayoutMakers addObject:newMaker];
+    }
+    if ((zeroType&MAAutoLayoutZeroTypeHeight) && hasHeight == NO) {
+        MAAutoLayoutMaker *newMaker = [[MAAutoLayoutMaker alloc] initWithFirstItem:self.view firstAttribute:NSLayoutAttributeHeight].ma_equal(0);
+        [newMaker active];
+
+        [zeroLayoutMakers addObject:newMaker];
+    }
+    if ((zeroType&MAAutoLayoutZeroTypeWidth) && hasWidth == NO) {
+        MAAutoLayoutMaker *newMaker = [[MAAutoLayoutMaker alloc] initWithFirstItem:self.view firstAttribute:NSLayoutAttributeWidth].ma_equal(0);
+        [newMaker active];
+        [zeroLayoutMakers addObject:newMaker];
+    }
+    self.zeroLayoutMakers = zeroLayoutMakers;
+}
+
+- (void)restoreLayout {
+    [self.zeroLayoutMakers makeObjectsPerformSelector:@selector(deactivate)];
+    self.zeroLayoutMakers = nil;
+    for (MAAutoLayoutMaker *maker in self.layoutMakers) {
+        maker.layoutConstraint.active = YES;
+    }
+}
+
 @end
 
 @implementation UIView (MAAutoLayout)
+
++ (void)load {
+    [UIView swizzleMethod:@selector(setHidden:) withMethod:@selector(ma_setHidden:)];
+}
+
+- (void)ma_setHidden:(BOOL)hidden {
+    BOOL isChanged = self.hidden != hidden;
+    [self ma_setHidden:hidden];
+    MAAutoLayout *autolayout = objc_getAssociatedObject(self, &kInstalledMAAutoLayoutKey);
+    if (isChanged && autolayout.zeroTypeWhenHidden) {
+        [self reloadLayoutZeroWithZeroType:autolayout.zeroTypeWhenHidden];
+    }
+}
 
 static char kInstalledMAAutoLayoutKey;
 
@@ -219,6 +290,14 @@ static char kInstalledMAAutoLayoutKey;
         }
     }
     return nil;
+}
+
+- (void)reloadLayoutZeroWithZeroType:(MAAutoLayoutZeroType)zeroType {
+    if (self.hidden) {
+        [self.ma_layout setLayoutZeroWithZeroType:zeroType];
+    }else{
+        [self.ma_layout restoreLayout];
+    }
 }
 
 - (MAViewAttribute *)ma_left{
@@ -297,6 +376,25 @@ static char kInstalledMAAutoLayoutKey;
     return [[MAViewAttribute alloc] initWithItem:item layoutAttribute:layoutAttribute];
 }
 
++(BOOL)swizzleMethod:(SEL)originalSEL withMethod:(SEL)alternateSEL{
+    //获取原始方法
+    Method originalMethod = class_getInstanceMethod(self, originalSEL);
+    //当原始方法不存在时，直接返回NO，表示swizzling失败
+    if (!originalMethod) {
+        return NO;
+    }
+    //获取要交换的方法
+    Method alternateMethod = class_getInstanceMethod(self, alternateSEL);
+    //当需要交换方法不存在时，直接返回NO，表示swizzling失败
+    if (!alternateMethod) {
+        return NO;
+    }
+    //交换两个方法的实现
+    method_exchangeImplementations(originalMethod, alternateMethod);
+    //返回YES，表示swizzling成功
+    return YES;
+}
+
 @end
 
 @implementation UIViewController (MAAutoLayout)
@@ -367,6 +465,17 @@ static char kInstalledMAAutoLayoutKey;
     self.priorityValue = UILayoutPriorityRequired;
     
     return self;
+}
+
+- (instancetype)createNewLayoutMaker {
+    MAAutoLayoutMaker *newMaker = [[MAAutoLayoutMaker alloc] initWithFirstItem:self.firstItem firstAttribute:self.firstAttribute];
+    newMaker.secondItem = self.secondItem;
+    newMaker.secondAttribute = self.secondAttribute;
+    newMaker.relation = self.relation;
+    newMaker.multiplierValue = self.multiplierValue;
+    newMaker.constant = self.constant;
+    newMaker.priorityValue = self.priorityValue;
+    return newMaker;
 }
 
 - (MAAutoLayoutMaker *(^)(CGFloat))offset{

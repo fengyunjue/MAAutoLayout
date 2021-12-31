@@ -8,6 +8,17 @@
 #import <UIKit/UIKit.h>
 @class MAViewAttribute, MAAutoLayoutMaker, MAAutoLayoutMakers;
 
+typedef NS_OPTIONS(NSInteger, MAAutoLayoutZeroType) {
+    MAAutoLayoutZeroTypeTop = 1 << 0,
+    MAAutoLayoutZeroTypeLeft = 1 << 1,
+    MAAutoLayoutZeroTypeRight = 1 << 2,
+    MAAutoLayoutZeroTypeBottom = 1 << 3,
+    MAAutoLayoutZeroTypeHeight = 1 << 4,
+    MAAutoLayoutZeroTypeWidth = 1 << 5,
+    MAAutoLayoutZeroTypeTopHeight = MAAutoLayoutZeroTypeTop | MAAutoLayoutZeroTypeHeight,
+    MAAutoLayoutZeroTypeBottomHeight = MAAutoLayoutZeroTypeBottom | MAAutoLayoutZeroTypeHeight
+};
+
 @interface MAAutoLayout : NSObject
 
 - (nonnull instancetype)initWithView:(UIView * _Nonnull)view;
@@ -46,6 +57,9 @@
 // 取消
 - (void)deactivate;
 
+// 当监听到hidden变化时会调用UIView的reloadLayoutZeroWithZeroType:方法
+@property (nonatomic, assign) MAAutoLayoutZeroType  zeroTypeWhenHidden;
+
 @end
 
 @interface UIView (MAAutoLayout)
@@ -73,7 +87,10 @@
 - (void)ma_updateConstraints:(void (^_Nonnull)(MAAutoLayout * _Nonnull newMake))make;
 - (void)ma_removeConstraints;
 
+// 获取对应的MAAutoLayoutMaker
 - (MAAutoLayoutMaker *_Nonnull)ma_layoutMakerWithLayoutAttribute:(NSLayoutAttribute)layoutAttribute;
+// 如果view隐藏或显示时,可以调用此方法设置view的高度等
+- (void)reloadLayoutZeroWithZeroType:(MAAutoLayoutZeroType)zeroType;
 
 @end
 
@@ -217,4 +234,3 @@
 - (UIView *_Nonnull)ma_addSpacingView:(void(^_Nonnull)(MAAutoLayout * _Nonnull make))make;
 
 @end
-
