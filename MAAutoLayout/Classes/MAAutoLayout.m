@@ -228,7 +228,7 @@
 @implementation UIView (MAAutoLayout)
 
 + (void)load {
-    [UIView swizzleMethod:@selector(setHidden:) withMethod:@selector(ma_setHidden:)];
+    [UIView ma_swizzleMethod:@selector(setHidden:) withMethod:@selector(ma_setHidden:)];
 }
 
 - (void)ma_setHidden:(BOOL)hidden {
@@ -376,7 +376,7 @@ static char kInstalledMAAutoLayoutKey;
     return [[MAViewAttribute alloc] initWithItem:item layoutAttribute:layoutAttribute];
 }
 
-+(BOOL)swizzleMethod:(SEL)originalSEL withMethod:(SEL)alternateSEL{
++(BOOL)ma_swizzleMethod:(SEL)originalSEL withMethod:(SEL)alternateSEL{
     //获取原始方法
     Method originalMethod = class_getInstanceMethod(self, originalSEL);
     //当原始方法不存在时，直接返回NO，表示swizzling失败
