@@ -64,14 +64,13 @@
     [self.titleLabel ma_makeConstraints:^(MAAutoLayout * _Nonnull make) {
         make.top.equalTo(view).offset(15);
         make.leftRight.equalTo(view).offsets(15);
-        make.bottom.equalTo(self.titleLabel1.ma_top).offset(-10).priority(UILayoutPriorityDefaultHigh);
-        make.zeroTypeWhenHidden = MAAutoLayoutZeroTypeBottomHeight;
+        make.zeroTypeWhenHidden = MAAutoLayoutZeroTypeHeight;
     }];
     [self.titleLabel1 ma_makeConstraints:^(MAAutoLayout * _Nonnull make) {
-        make.top.equalTo(self.titleLabel.ma_bottom).offset(10).priority(UILayoutPriorityDefaultHigh);
+        make.top.equalTo(self.titleLabel.ma_bottom).offset(10);
         make.leftRight.equalTo(self.titleLabel);
         make.bottom.equalTo(view).offset(-15);
-        make.zeroTypeWhenHidden = MAAutoLayoutZeroTypeTopHeight;
+        make.zeroTypeWhenHidden = MAAutoLayoutZeroTypeHeight;
     }];
 
 }
@@ -80,6 +79,8 @@
     
     self.titleLabel.hidden = arc4random() % 2 == 0;
     self.titleLabel1.hidden = arc4random() % 2 == 0;
+    self.titleLabel1.ma_topMaker.zeroHide = self.titleLabel.hidden || self.titleLabel1.hidden;
+    
     [self.view layoutIfNeeded];
     
     self.view0.ma_topMaker.layoutConstraint.constant = 80;

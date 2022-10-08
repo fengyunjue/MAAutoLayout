@@ -152,6 +152,8 @@ typedef NS_OPTIONS(NSInteger, MAAutoLayoutZeroType) {
 
 - (nonnull NSLayoutConstraint *)active;
 
+@property (nonatomic, assign, getter=isZeroHide) BOOL zeroHide;
+
 @end
 
 @interface MAAutoLayoutMakers : NSObject

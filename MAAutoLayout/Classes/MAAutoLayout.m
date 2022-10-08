@@ -177,7 +177,6 @@
     BOOL hasWidth = NO;
     NSMutableArray *zeroLayoutMakers = [NSMutableArray array];
     for (MAAutoLayoutMaker *maker in self.layoutMakers) {
-        maker.layoutConstraint.active = NO;
         BOOL shouldZero = NO;
         if ((zeroType&MAAutoLayoutZeroTypeTop) && maker.firstAttribute == NSLayoutAttributeTop) {
             shouldZero = YES;
@@ -194,12 +193,13 @@
             shouldZero = YES;
             hasWidth = YES;
         }
-        MAAutoLayoutMaker *newMaker = [maker createNewLayoutMaker];
         if (shouldZero) {
+            maker.layoutConstraint.active = NO;
+            MAAutoLayoutMaker *newMaker = [maker createNewLayoutMaker];
             newMaker.constant = 0;
+            [newMaker active];
+            [zeroLayoutMakers addObject:newMaker];
         }
-        [newMaker active];
-        [zeroLayoutMakers addObject:newMaker];
     }
     if ((zeroType&MAAutoLayoutZeroTypeHeight) && hasHeight == NO) {
         MAAutoLayoutMaker *newMaker = [[MAAutoLayoutMaker alloc] initWithFirstItem:self.view firstAttribute:NSLayoutAttributeHeight].ma_equal(0);
@@ -589,6 +589,11 @@ static char kInstalledMAAutoLayoutKey;
         self.layoutConstraint.active = YES;
     }
     return self.layoutConstraint;
+}
+
+- (void)setZeroHide:(BOOL)zeroHide {
+    _zeroHide = zeroHide;
+    self.layoutConstraint.constant = zeroHide ? 0 : self.constant;
 }
 
 - (void)deactivate{
