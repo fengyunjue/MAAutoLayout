@@ -15,6 +15,10 @@ typedef NS_OPTIONS(NSInteger, MAAutoLayoutZeroType) {
     MAAutoLayoutZeroTypeBottom = 1 << 3,
     MAAutoLayoutZeroTypeHeight = 1 << 4,
     MAAutoLayoutZeroTypeWidth = 1 << 5,
+    MAAutoLayoutZeroTypeSize = MAAutoLayoutZeroTypeWidth | MAAutoLayoutZeroTypeHeight,
+    MAAutoLayoutZeroTypeTopBottom = MAAutoLayoutZeroTypeTop | MAAutoLayoutZeroTypeBottom,
+    MAAutoLayoutZeroTypeLeftRight = MAAutoLayoutZeroTypeLeft | MAAutoLayoutZeroTypeRight,
+    MAAutoLayoutZeroTypeEdge = MAAutoLayoutZeroTypeTopBottom | MAAutoLayoutZeroTypeLeftRight,
     MAAutoLayoutZeroTypeTopHeight = MAAutoLayoutZeroTypeTop | MAAutoLayoutZeroTypeHeight,
     MAAutoLayoutZeroTypeBottomHeight = MAAutoLayoutZeroTypeBottom | MAAutoLayoutZeroTypeHeight
 };
