@@ -235,7 +235,7 @@ typedef NS_OPTIONS(NSInteger, MAAutoLayoutZeroType) {
 @property (nonatomic, strong, readonly) MAAutoLayoutMaker * _Nullable ma_baselineMaker;
 
 - (UIEdgeInsets)ma_safeAreaInsets;
-+ (UIEdgeInsets)ma_rootSafeAreaInsets;
++ (UIEdgeInsets)ma_rootSafeAreaInsets NS_EXTENSION_UNAVAILABLE_IOS("Use view controller based solutions where appropriate instead.");
 
 // addSpacing
 - (UIView *_Nonnull)ma_addSpacingView:(void(^_Nonnull)(MAAutoLayout * _Nonnull make))make;
