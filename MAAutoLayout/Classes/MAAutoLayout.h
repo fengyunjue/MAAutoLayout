@@ -134,9 +134,14 @@ typedef NS_OPTIONS(NSInteger, MAAutoLayoutZeroType) {
 - (MAAutoLayoutMaker *_Nonnull)lessThanOrEqualTo:(NSObject * _Nonnull)attr NS_SWIFT_NAME(lessThanOrEqualTo(_:));
 
 // 关系 superview
-- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(void))equalToSuperView NS_SWIFT_UNAVAILABLE("swift unavailable");
-- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(void))greaterThanOrEqualToSuperView NS_SWIFT_UNAVAILABLE("swift unavailable");
-- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(void))lessThanOrEqualToSuperView NS_SWIFT_UNAVAILABLE("swift unavailable");
+- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(void))equalToSuperView NS_SWIFT_UNAVAILABLE("use equalToSuperView:");
+- (MAAutoLayoutMaker * _Nonnull)equalToSuperView:(NSObject *_Nullable)attr NS_SWIFT_NAME(equalToSuperView(_:));
+
+- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(void))greaterThanOrEqualToSuperView NS_SWIFT_UNAVAILABLE("use greaterThanOrEqualToSuperView:");
+- (MAAutoLayoutMaker * _Nonnull)greaterThanOrEqualToSuperView:(NSObject *_Nullable)attr NS_SWIFT_NAME(greaterThanOrEqualToSuperView(_:));
+
+- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(void))lessThanOrEqualToSuperView NS_SWIFT_UNAVAILABLE("use lessThanOrEqualToSuperView:");
+- (MAAutoLayoutMaker *_Nonnull)lessThanOrEqualToSuperView:(NSObject *_Nullable)attr NS_SWIFT_NAME(lessThanOrEqualToSuperView(_:));
 
 
 // 赋值
@@ -184,10 +189,14 @@ typedef NS_OPTIONS(NSInteger, MAAutoLayoutZeroType) {
 - (MAAutoLayoutMakers *_Nonnull)lessThanOrEqualTo:(NSObject * _Nonnull)attr NS_SWIFT_NAME(lessThanOrEqualTo(_:));
 
 // 关系 superview
-- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(void))equalToSuperView;
-- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(void))greaterThanOrEqualToSuperView;
-- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(void))lessThanOrEqualToSuperView;
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(void))equalToSuperView NS_SWIFT_UNAVAILABLE("use equalToSuperView:");
+- (MAAutoLayoutMakers * _Nonnull)equalToSuperView:(NSObject *_Nullable)attr NS_SWIFT_NAME(equalToSuperView(_:));
 
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(void))greaterThanOrEqualToSuperView NS_SWIFT_UNAVAILABLE("use greaterThanOrEqualToSuperView:");
+- (MAAutoLayoutMakers * _Nonnull)greaterThanOrEqualToSuperView:(NSObject *_Nullable)attr NS_SWIFT_NAME(greaterThanOrEqualToSuperView(_:));
+
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(void))lessThanOrEqualToSuperView NS_SWIFT_UNAVAILABLE("use lessThanOrEqualToSuperView:");
+- (MAAutoLayoutMakers * _Nonnull)lessThanOrEqualToSuperView:(NSObject *_Nullable)attr NS_SWIFT_NAME(lessThanOrEqualToSuperView(_:));
 
 
 // 赋值

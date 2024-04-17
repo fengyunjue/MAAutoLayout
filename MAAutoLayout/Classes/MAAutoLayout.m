@@ -484,6 +484,7 @@ static char kInstalledMAAutoLayoutKey;
         return self;
     };
 }
+
 - (MAAutoLayoutMaker *)offset:(CGFloat)offset{
     return self.offset(offset);
 }
@@ -493,6 +494,7 @@ static char kInstalledMAAutoLayoutKey;
         return self.equalToWithRelation(attribute, NSLayoutRelationEqual);
     };
 }
+
 - (MAAutoLayoutMaker *)equalTo:(NSObject *)attr{
     return self.equalTo(attr);
 }
@@ -502,6 +504,7 @@ static char kInstalledMAAutoLayoutKey;
         return self.equalToWithRelation(attribute, NSLayoutRelationGreaterThanOrEqual);
     };
 }
+
 -(MAAutoLayoutMaker *)greaterThanOrEqualTo:(NSObject *)attr{
     return self.greaterThanOrEqualTo(attr);
 }
@@ -511,6 +514,7 @@ static char kInstalledMAAutoLayoutKey;
         return self.equalToWithRelation(attribute, NSLayoutRelationLessThanOrEqual);
     };
 }
+
 -(MAAutoLayoutMaker *)lessThanOrEqualTo:(NSObject *)attr{
     return self.lessThanOrEqualTo(attr);
 }
@@ -520,23 +524,37 @@ static char kInstalledMAAutoLayoutKey;
         return self.equalToWithRelation(self.firstItem.superview, NSLayoutRelationEqual);
     };
 }
+
+- (MAAutoLayoutMaker *)equalToSuperView:(NSObject *)attr {
+    return self.equalToSuperView();
+}
+
 - (MAAutoLayoutMaker * _Nonnull (^)(void))greaterThanOrEqualToSuperView{
     return ^id() {
         return self.equalToWithRelation(self.firstItem.superview, NSLayoutRelationGreaterThanOrEqual);
     };
 }
+
+- (MAAutoLayoutMaker *)greaterThanOrEqualToSuperView:(NSObject *)attr {
+    return self.greaterThanOrEqualToSuperView();
+}
+
 - (MAAutoLayoutMaker * _Nonnull (^)(void))lessThanOrEqualToSuperView{
     return ^id() {
         return self.equalToWithRelation(self.firstItem.superview, NSLayoutRelationLessThanOrEqual);
     };
 }
 
+-(MAAutoLayoutMaker *)lessThanOrEqualToSuperView:(NSObject *)attr {
+    return self.lessThanOrEqualToSuperView();
+}
 
 - (MAAutoLayoutMaker * _Nonnull (^)(CGFloat))ma_equal{
     return ^id(CGFloat constant) {
         return self.equalToWithRelation(@(constant), NSLayoutRelationEqual);
     };
 }
+
 -(MAAutoLayoutMaker *)ma_equal:(CGFloat)constant{
     return self.ma_equal(constant);
 }
@@ -546,6 +564,7 @@ static char kInstalledMAAutoLayoutKey;
         return self.equalToWithRelation(@(constant), NSLayoutRelationGreaterThanOrEqual);
     };
 }
+
 -(MAAutoLayoutMaker *)ma_greaterThanOrEqual:(CGFloat)constant{
     return self.ma_greaterThanOrEqual(constant);
 }
@@ -555,6 +574,7 @@ static char kInstalledMAAutoLayoutKey;
         return self.equalToWithRelation(@(constant), NSLayoutRelationLessThanOrEqual);
     };
 }
+
 -(MAAutoLayoutMaker *)ma_lessThanOrEqual:(CGFloat)constant{
     return self.ma_lessThanOrEqual(constant);
 }
@@ -565,6 +585,7 @@ static char kInstalledMAAutoLayoutKey;
         return self;
     };
 }
+
 -(MAAutoLayoutMaker *)priority:(UILayoutPriority)priority{
     return self.priority(priority);
 }
@@ -575,6 +596,7 @@ static char kInstalledMAAutoLayoutKey;
         return self;
     };
 }
+
 -(MAAutoLayoutMaker *)multiplier:(CGFloat)multiplier{
     return self.multiplier(multiplier);
 }
@@ -666,6 +688,7 @@ static char kInstalledMAAutoLayoutKey;
         return self;
     };
 }
+
 - (MAAutoLayoutMakers *)offsets:(CGFloat)offsets{
     return self.offsets(offsets);
 }
@@ -676,6 +699,7 @@ static char kInstalledMAAutoLayoutKey;
         return self;
     };
 }
+
 - (MAAutoLayoutMakers *)insets:(UIEdgeInsets)insets{
     return self.insets(insets);
 }
@@ -695,6 +719,7 @@ static char kInstalledMAAutoLayoutKey;
         return self.equalToWithRelation(attribute, NSLayoutRelationGreaterThanOrEqual);
     };
 }
+
 - (MAAutoLayoutMakers *)greaterThanOrEqualTo:(NSObject *)attr{
     return self.greaterThanOrEqualTo(attr);
 }
@@ -704,6 +729,7 @@ static char kInstalledMAAutoLayoutKey;
         return self.equalToWithRelation(attribute, NSLayoutRelationLessThanOrEqual);
     };
 }
+
 - (MAAutoLayoutMakers *)lessThanOrEqualTo:(NSObject *)attr{
     return self.lessThanOrEqualTo(attr);
 }
@@ -713,15 +739,29 @@ static char kInstalledMAAutoLayoutKey;
         return self.equalToWithRelation(self.firstItem.superview, NSLayoutRelationEqual);
     };
 }
+
+- (MAAutoLayoutMakers *)equalToSuperView:(NSObject *)attr {
+    return self.equalToSuperView();
+}
+
 - (MAAutoLayoutMakers * _Nonnull (^)(void))greaterThanOrEqualToSuperView{
     return ^id() {
         return self.equalToWithRelation(self.firstItem.superview, NSLayoutRelationGreaterThanOrEqual);
     };
 }
+
+- (MAAutoLayoutMakers *)greaterThanOrEqualToSuperView:(NSObject *)attr {
+    return self.greaterThanOrEqualToSuperView();
+}
+
 - (MAAutoLayoutMakers * _Nonnull (^)(void))lessThanOrEqualToSuperView{
     return ^id() {
         return self.equalToWithRelation(self.firstItem.superview, NSLayoutRelationLessThanOrEqual);
     };
+}
+
+- (MAAutoLayoutMakers *)lessThanOrEqualToSuperView:(NSObject *)attr {
+    return self.lessThanOrEqualToSuperView();
 }
 
 - (MAAutoLayoutMakers * _Nonnull (^)(CGFloat))ma_equal{
@@ -729,6 +769,7 @@ static char kInstalledMAAutoLayoutKey;
         return self.equalToWithRelation(@(constant), NSLayoutRelationEqual);
     };
 }
+
 - (MAAutoLayoutMakers *)ma_equal:(CGFloat)constant{
     return self.ma_equal(constant);
 }
@@ -738,6 +779,7 @@ static char kInstalledMAAutoLayoutKey;
         return self.equalToWithRelation([NSValue valueWithCGSize:CGSizeMake(width, height)], NSLayoutRelationEqual);
     };
 }
+
 - (MAAutoLayoutMakers *)ma_equalSize:(CGFloat)width height:(CGFloat)height{
     return self.ma_equalSize(width, height);
 }
@@ -747,6 +789,7 @@ static char kInstalledMAAutoLayoutKey;
         return self.equalToWithRelation(@(constant), NSLayoutRelationGreaterThanOrEqual);
     };
 }
+
 - (MAAutoLayoutMakers *)ma_greaterThanOrEqual:(CGFloat)constant{
     return self.ma_greaterThanOrEqual(constant);
 }
@@ -756,6 +799,7 @@ static char kInstalledMAAutoLayoutKey;
         return self.equalToWithRelation(@(constant), NSLayoutRelationLessThanOrEqual);
     };
 }
+
 - (MAAutoLayoutMakers *)ma_lessThanOrEqual:(CGFloat)constant{
     return self.ma_lessThanOrEqual(constant);
 }
@@ -766,6 +810,7 @@ static char kInstalledMAAutoLayoutKey;
         return self;
     };
 }
+
 - (MAAutoLayoutMakers *)priority:(UILayoutPriority)priority{
     return self.priority(priority);
 }
@@ -794,12 +839,14 @@ static char kInstalledMAAutoLayoutKey;
         maker.relation = relation;
     }
 }
+
 - (void)setSecondItem:(id)secondItem {
     _secondItem = secondItem;
     for (MAAutoLayoutMaker *maker in self.layoutMarkers) {
         maker.secondItem = secondItem;
     }
 }
+
 - (void)setInsetsValue:(UIEdgeInsets)insetsValue {
     _insetsValue = insetsValue;
     for (MAAutoLayoutMaker *maker in self.layoutMarkers) {
@@ -819,6 +866,7 @@ static char kInstalledMAAutoLayoutKey;
         maker.constant = constant;
     }
 }
+
 - (void)setPriorityValue:(UILayoutPriority)priorityValue {
     _priorityValue = priorityValue;
     for (MAAutoLayoutMaker *maker in self.layoutMarkers) {

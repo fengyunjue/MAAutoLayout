@@ -52,7 +52,7 @@ class ViewController: UIViewController {
             make.edge.equalTo(self.view1).insets(UIEdgeInsets.init(top: 10, left: 10, bottom: -10, right: -10))
         }
         self.view3.ma_makeConstraints { (make) in
-            make.center.equalToSuperView()
+            make.center.equalToSuperView(nil)
             make.size.ma_equalSize(100,200)
         }
     }
