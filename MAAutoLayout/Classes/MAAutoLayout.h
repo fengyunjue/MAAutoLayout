@@ -184,9 +184,9 @@ typedef NS_OPTIONS(NSInteger, MAAutoLayoutZeroType) {
 - (MAAutoLayoutMakers *_Nonnull)lessThanOrEqualTo:(NSObject * _Nonnull)attr NS_SWIFT_NAME(lessThanOrEqualTo(_:));
 
 // 关系 superview
-- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(void))equalToSuperView NS_SWIFT_UNAVAILABLE("swift unavailable");
-- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(void))greaterThanOrEqualToSuperView NS_SWIFT_UNAVAILABLE("swift unavailable");
-- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(void))lessThanOrEqualToSuperView NS_SWIFT_UNAVAILABLE("swift unavailable");
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(void))equalToSuperView;
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(void))greaterThanOrEqualToSuperView;
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(void))lessThanOrEqualToSuperView;
 
 
 
