@@ -979,6 +979,7 @@ static char kInstalledMAAutoLayoutKey;
 
 - (UIView *)ma_addSpacingView:(void (^)(MAAutoLayout * _Nonnull))make {
     UIView *view = [[UIView alloc] init];
+    view.userInteractionEnabled = NO;
     [self addSubview:view];
     [view ma_makeConstraints:make];
     return view;
