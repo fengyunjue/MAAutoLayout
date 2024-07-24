@@ -123,6 +123,11 @@ typedef NS_OPTIONS(NSInteger, MAAutoLayoutZeroType) {
 // 偏移量
 - (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(CGFloat offset))offset NS_SWIFT_UNAVAILABLE("use offset:");
 - (MAAutoLayoutMaker *_Nonnull)offset:(CGFloat)offset NS_SWIFT_NAME(offset(_:));
+
+// 设置hidden时的偏移量
+- (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(CGFloat offset))hiddenOffset NS_SWIFT_UNAVAILABLE("use hiddenOffset:");
+- (MAAutoLayoutMaker *_Nonnull)hiddenOffset:(CGFloat)offset NS_SWIFT_NAME(hiddenOffset(_:));
+
 // 关系
 - (MAAutoLayoutMaker * _Nonnull (^_Nonnull)(id _Nonnull attr))equalTo NS_SWIFT_UNAVAILABLE("use equalTo:");
 - (MAAutoLayoutMaker *_Nonnull)equalTo:(NSObject *_Nonnull)attr NS_SWIFT_NAME(equalTo(_:));

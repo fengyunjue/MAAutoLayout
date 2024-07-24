@@ -18,6 +18,7 @@
 @property (nonatomic, assign) CGFloat multiplierValue;
 @property (nonatomic, assign) CGFloat constant;
 @property (nonatomic, assign) UILayoutPriority priorityValue;
+@property (nonatomic, assign) CGFloat hideConstant;
 
 @property (nonatomic,strong) NSLayoutConstraint *layoutConstraint;
 
@@ -173,8 +174,8 @@
     [self.zeroLayoutMakers makeObjectsPerformSelector:@selector(deactivate)];
     self.zeroLayoutMakers = nil;
     
-    BOOL hasHeight = NO;
-    BOOL hasWidth = NO;
+    MAAutoLayoutMaker *heightMaker = nil;
+    MAAutoLayoutMaker *widthMaker = nil;
     NSMutableArray *zeroLayoutMakers = [NSMutableArray array];
     for (MAAutoLayoutMaker *maker in self.layoutMakers) {
         BOOL shouldZero = NO;
@@ -188,27 +189,26 @@
             shouldZero = YES;
         }else if ((zeroType&MAAutoLayoutZeroTypeHeight) && maker.firstAttribute == NSLayoutAttributeHeight) {
             shouldZero = YES;
-            hasHeight = YES;
+            heightMaker = maker;
         }else if ((zeroType&MAAutoLayoutZeroTypeWidth) && maker.firstAttribute == NSLayoutAttributeWidth) {
             shouldZero = YES;
-            hasWidth = YES;
+            widthMaker = maker;
         }
         if (shouldZero) {
             maker.layoutConstraint.active = NO;
             MAAutoLayoutMaker *newMaker = [maker createNewLayoutMaker];
-            newMaker.constant = 0;
+            newMaker.constant = maker.hideConstant;
             [newMaker active];
             [zeroLayoutMakers addObject:newMaker];
         }
     }
-    if ((zeroType&MAAutoLayoutZeroTypeHeight) && hasHeight == NO) {
-        MAAutoLayoutMaker *newMaker = [[MAAutoLayoutMaker alloc] initWithFirstItem:self.view firstAttribute:NSLayoutAttributeHeight].ma_equal(0);
+    if ((zeroType&MAAutoLayoutZeroTypeHeight) && heightMaker != nil) {
+        MAAutoLayoutMaker *newMaker = [[MAAutoLayoutMaker alloc] initWithFirstItem:self.view firstAttribute:NSLayoutAttributeHeight].ma_equal(heightMaker.hideConstant);
         [newMaker active];
-
         [zeroLayoutMakers addObject:newMaker];
     }
-    if ((zeroType&MAAutoLayoutZeroTypeWidth) && hasWidth == NO) {
-        MAAutoLayoutMaker *newMaker = [[MAAutoLayoutMaker alloc] initWithFirstItem:self.view firstAttribute:NSLayoutAttributeWidth].ma_equal(0);
+    if ((zeroType&MAAutoLayoutZeroTypeWidth) && widthMaker != nil) {
+        MAAutoLayoutMaker *newMaker = [[MAAutoLayoutMaker alloc] initWithFirstItem:self.view firstAttribute:NSLayoutAttributeWidth].ma_equal(widthMaker.hideConstant);
         [newMaker active];
         [zeroLayoutMakers addObject:newMaker];
     }
@@ -489,6 +489,16 @@ static char kInstalledMAAutoLayoutKey;
     return self.offset(offset);
 }
 
+- (MAAutoLayoutMaker *(^)(CGFloat))hiddenOffset{
+    return ^id(CGFloat offset){
+        self.hideConstant = offset;
+        return self;
+    };
+}
+- (MAAutoLayoutMaker *)hiddenOffset:(CGFloat)offset{
+    return self.hiddenOffset(offset);
+}
+
 - (MAAutoLayoutMaker * _Nonnull (^)(id _Nonnull))equalTo{
     return ^id(id attribute) {
         return self.equalToWithRelation(attribute, NSLayoutRelationEqual);
@@ -615,7 +625,7 @@ static char kInstalledMAAutoLayoutKey;
 
 - (void)setZeroHide:(BOOL)zeroHide {
     _zeroHide = zeroHide;
-    self.layoutConstraint.constant = zeroHide ? 0 : self.constant;
+    self.layoutConstraint.constant = zeroHide ? self.hideConstant : self.constant;
 }
 
 - (void)deactivate{
