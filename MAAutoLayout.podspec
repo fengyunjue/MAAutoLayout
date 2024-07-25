@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'MAAutoLayout'
-  s.version          = '1.9.2'
+  s.version          = '1.9.3'
   s.summary          = '简单的autoLayout的系统封装'
 
 # This description is used to generate tags and improve search results.

@@ -174,8 +174,8 @@
     [self.zeroLayoutMakers makeObjectsPerformSelector:@selector(deactivate)];
     self.zeroLayoutMakers = nil;
     
-    MAAutoLayoutMaker *heightMaker = nil;
-    MAAutoLayoutMaker *widthMaker = nil;
+    BOOL hasHeight = NO;
+    BOOL hasWidth = NO;
     NSMutableArray *zeroLayoutMakers = [NSMutableArray array];
     for (MAAutoLayoutMaker *maker in self.layoutMakers) {
         BOOL shouldZero = NO;
@@ -189,10 +189,10 @@
             shouldZero = YES;
         }else if ((zeroType&MAAutoLayoutZeroTypeHeight) && maker.firstAttribute == NSLayoutAttributeHeight) {
             shouldZero = YES;
-            heightMaker = maker;
+            hasHeight = YES;
         }else if ((zeroType&MAAutoLayoutZeroTypeWidth) && maker.firstAttribute == NSLayoutAttributeWidth) {
             shouldZero = YES;
-            widthMaker = maker;
+            hasWidth = YES;
         }
         if (shouldZero) {
             maker.layoutConstraint.active = NO;
@@ -202,13 +202,13 @@
             [zeroLayoutMakers addObject:newMaker];
         }
     }
-    if ((zeroType&MAAutoLayoutZeroTypeHeight) && heightMaker != nil) {
-        MAAutoLayoutMaker *newMaker = [[MAAutoLayoutMaker alloc] initWithFirstItem:self.view firstAttribute:NSLayoutAttributeHeight].ma_equal(heightMaker.hideConstant);
+    if ((zeroType&MAAutoLayoutZeroTypeHeight) && hasHeight == NO) {
+        MAAutoLayoutMaker *newMaker = [[MAAutoLayoutMaker alloc] initWithFirstItem:self.view firstAttribute:NSLayoutAttributeHeight].ma_equal(0);
         [newMaker active];
         [zeroLayoutMakers addObject:newMaker];
     }
-    if ((zeroType&MAAutoLayoutZeroTypeWidth) && widthMaker != nil) {
-        MAAutoLayoutMaker *newMaker = [[MAAutoLayoutMaker alloc] initWithFirstItem:self.view firstAttribute:NSLayoutAttributeWidth].ma_equal(widthMaker.hideConstant);
+    if ((zeroType&MAAutoLayoutZeroTypeWidth) && hasWidth == NO) {
+        MAAutoLayoutMaker *newMaker = [[MAAutoLayoutMaker alloc] initWithFirstItem:self.view firstAttribute:NSLayoutAttributeWidth].ma_equal(0);
         [newMaker active];
         [zeroLayoutMakers addObject:newMaker];
     }
