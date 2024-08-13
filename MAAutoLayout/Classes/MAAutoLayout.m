@@ -408,23 +408,38 @@ static char kInstalledMAAutoLayoutKey;
 }
 
 - (MAViewAttribute *)ma_topLayoutGuideTop{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [[MAViewAttribute alloc] initWithItem:self.topLayoutGuide layoutAttribute:NSLayoutAttributeTop];
+#pragma clang diagnostic pop
 }
 
 - (MAViewAttribute *)ma_topLayoutGuideBottom{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [[MAViewAttribute alloc] initWithItem:self.topLayoutGuide layoutAttribute:NSLayoutAttributeBottom];
+#pragma clang diagnostic pop
 }
 
 - (MAViewAttribute *)ma_bottomLayoutGuideTop{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [[MAViewAttribute alloc] initWithItem:self.bottomLayoutGuide layoutAttribute:NSLayoutAttributeTop];
+#pragma clang diagnostic pop
 }
 
 - (MAViewAttribute *)ma_bottomLayoutGuideBottom{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [[MAViewAttribute alloc] initWithItem:self.bottomLayoutGuide layoutAttribute:NSLayoutAttributeBottom];
+#pragma clang diagnostic pop
 }
 
 - (MAViewAttribute *)ma_safeAreaTopLayoutGuide{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     id item = self.topLayoutGuide;
+#pragma clang diagnostic pop
     NSLayoutAttribute attribute = NSLayoutAttributeBottom;
 #ifdef __IPHONE_11_0
     if (@available(iOS 11.0, *)) {
@@ -436,7 +451,10 @@ static char kInstalledMAAutoLayoutKey;
 }
 
 - (MAViewAttribute *)ma_safeAreaBottomLayoutGuide{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     id item = self.bottomLayoutGuide;
+#pragma clang diagnostic pop
     NSLayoutAttribute attribute = NSLayoutAttributeTop;
 #ifdef __IPHONE_11_0
     if (@available(iOS 11.0, *)) {
