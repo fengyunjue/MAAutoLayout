@@ -995,14 +995,75 @@ static char kInstalledMAAutoLayoutKey;
     return safeInsets;
 }
 
-+ (UIEdgeInsets)ma_rootSafeAreaInsets{
++ (UIEdgeInsets)ma_rootSafeAreaInsets {
     UIEdgeInsets safeInsets = UIEdgeInsetsZero;
 #ifdef __IPHONE_11_0
     if (@available(iOS 11.0, *)) {
-        safeInsets = [[UIApplication sharedApplication] delegate].window.safeAreaInsets;
+        UIWindow *window = [self ma_getKeyWindow];
+        if (window) {
+            safeInsets = window.safeAreaInsets;
+        }
     }
 #endif
     return safeInsets;
+}
+
++ (UIWindow *)ma_getKeyWindow {
+    UIWindow *foundWindow = nil;
+    
+    if (@available(iOS 13.0, *)) {
+        // 1. 尝试在 UIScene 架构中寻找 (兼容带 UIScene 的情况)
+        for (UIScene *scene in [UIApplication sharedApplication].connectedScenes) {
+            if (scene.activationState == UISceneActivationStateForegroundActive && [scene isKindOfClass:[UIWindowScene class]]) {
+                UIWindowScene *windowScene = (UIWindowScene *)scene;
+                for (UIWindow *window in windowScene.windows) {
+                    // 优先寻找 UIWindowLevelNormal 的 keyWindow，避免拿到键盘或弹窗的 Window
+                    if (window.isKeyWindow && window.windowLevel == UIWindowLevelNormal) {
+                        foundWindow = window;
+                        break;
+                    }
+                }
+                // 如果没找到 keyWindow，退而求其次找第一个 Normal 级别的 Window
+                if (!foundWindow) {
+                    for (UIWindow *window in windowScene.windows) {
+                        if (window.windowLevel == UIWindowLevelNormal) {
+                            foundWindow = window;
+                            break;
+                        }
+                    }
+                }
+                if (foundWindow) break;
+            }
+        }
+        
+        // 2. 如果没使用 UIScene，尝试在 iOS 13 的 windows 数组中寻找
+        if (!foundWindow) {
+            for (UIWindow *window in [UIApplication sharedApplication].windows) {
+                if (window.isKeyWindow && window.windowLevel == UIWindowLevelNormal) {
+                    foundWindow = window;
+                    break;
+                }
+            }
+        }
+    }
+    
+    // 3. 兼容 iOS 12 及以下版本 (不带 UIScene 的情况)
+    if (!foundWindow) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        foundWindow = [UIApplication sharedApplication].keyWindow;
+#pragma clang diagnostic pop
+    }
+    
+    // 4. 终极兜底：尝试从 AppDelegate 中获取
+    if (!foundWindow) {
+        id<UIApplicationDelegate> delegate = [UIApplication sharedApplication].delegate;
+        if ([delegate respondsToSelector:@selector(window)]) {
+            foundWindow = delegate.window;
+        }
+    }
+    
+    return foundWindow;
 }
 
 - (UIView *)ma_addSpacingView:(void (^)(MAAutoLayout * _Nonnull))make {
