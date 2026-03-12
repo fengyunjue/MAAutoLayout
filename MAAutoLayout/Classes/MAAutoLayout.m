@@ -1012,42 +1012,64 @@ static char kInstalledMAAutoLayoutKey;
     UIWindow *foundWindow = nil;
     
     if (@available(iOS 13.0, *)) {
-        // 1. 尝试在 UIScene 架构中寻找 (兼容带 UIScene 的情况)
+        // 1. 寻找最合适的 UIWindowScene
+        UIWindowScene *bestScene = nil;
         for (UIScene *scene in [UIApplication sharedApplication].connectedScenes) {
-            if (scene.activationState == UISceneActivationStateForegroundActive && [scene isKindOfClass:[UIWindowScene class]]) {
-                UIWindowScene *windowScene = (UIWindowScene *)scene;
-                for (UIWindow *window in windowScene.windows) {
-                    // 优先寻找 UIWindowLevelNormal 的 keyWindow，避免拿到键盘或弹窗的 Window
-                    if (window.isKeyWindow && window.windowLevel == UIWindowLevelNormal) {
+            if ([scene isKindOfClass:[UIWindowScene class]]) {
+                if (scene.activationState == UISceneActivationStateForegroundActive) {
+                    bestScene = (UIWindowScene *)scene;
+                    break; // 找到了最完美的 Active 状态，直接用
+                } else if (scene.activationState == UISceneActivationStateForegroundInactive) {
+                    bestScene = (UIWindowScene *)scene; // 刚启动时通常是 Inactive，先存起来备用
+                } else if (!bestScene) {
+                    bestScene = (UIWindowScene *)scene; // 终极兜底：只要是个 Scene 就行
+                }
+            }
+        }
+        
+        // 2. 在找到的 Scene 中寻找 Window
+        if (bestScene) {
+            // 优先找真正的 KeyWindow
+            for (UIWindow *window in bestScene.windows) {
+                if (window.isKeyWindow && window.windowLevel == UIWindowLevelNormal) {
+                    foundWindow = window;
+                    break;
+                }
+            }
+            // 兜底：刚启动时可能还没来得及变成 KeyWindow，直接拿第一个 Normal 级别的窗口
+            if (!foundWindow) {
+                for (UIWindow *window in bestScene.windows) {
+                    if (window.windowLevel == UIWindowLevelNormal) {
                         foundWindow = window;
                         break;
                     }
                 }
-                // 如果没找到 keyWindow，退而求其次找第一个 Normal 级别的 Window
-                if (!foundWindow) {
-                    for (UIWindow *window in windowScene.windows) {
-                        if (window.windowLevel == UIWindowLevelNormal) {
-                            foundWindow = window;
-                            break;
-                        }
-                    }
-                }
-                if (foundWindow) break;
             }
         }
         
-        // 2. 如果没使用 UIScene，尝试在 iOS 13 的 windows 数组中寻找
+        // 3. 如果没使用 UIScene，尝试在 iOS 13 的 windows 数组中寻找
         if (!foundWindow) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             for (UIWindow *window in [UIApplication sharedApplication].windows) {
                 if (window.isKeyWindow && window.windowLevel == UIWindowLevelNormal) {
                     foundWindow = window;
                     break;
                 }
             }
+            if (!foundWindow) {
+                for (UIWindow *window in [UIApplication sharedApplication].windows) {
+                    if (window.windowLevel == UIWindowLevelNormal) {
+                        foundWindow = window;
+                        break;
+                    }
+                }
+            }
+#pragma clang diagnostic pop
         }
     }
     
-    // 3. 兼容 iOS 12 及以下版本 (不带 UIScene 的情况)
+    // 4. 兼容 iOS 12 及以下版本 (不带 UIScene 的情况)
     if (!foundWindow) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -1055,7 +1077,7 @@ static char kInstalledMAAutoLayoutKey;
 #pragma clang diagnostic pop
     }
     
-    // 4. 终极兜底：尝试从 AppDelegate 中获取
+    // 5. 终极兜底：尝试从 AppDelegate 中获取
     if (!foundWindow) {
         id<UIApplicationDelegate> delegate = [UIApplication sharedApplication].delegate;
         if ([delegate respondsToSelector:@selector(window)]) {
