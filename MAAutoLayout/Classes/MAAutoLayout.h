@@ -187,6 +187,9 @@ typedef NS_OPTIONS(NSInteger, MAAutoLayoutZeroType) {
 - (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(UIEdgeInsets insets))insets NS_SWIFT_UNAVAILABLE("use insets:");
 - (MAAutoLayoutMakers *_Nonnull)insets:(UIEdgeInsets)insets NS_SWIFT_NAME(insets(_:));
 
+- (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(UIEdgeInsets edge))edge NS_SWIFT_UNAVAILABLE("use edge:");
+- (MAAutoLayoutMakers *_Nonnull)edge:(UIEdgeInsets)edge NS_SWIFT_NAME(edge(_:));
+
 // 关系
 - (MAAutoLayoutMakers * _Nonnull (^_Nonnull)(id _Nonnull attr))equalTo NS_SWIFT_UNAVAILABLE("use equalTo:");
 - (MAAutoLayoutMakers *_Nonnull)equalTo:(NSObject * _Nonnull)attr NS_SWIFT_NAME(equalTo(_:));

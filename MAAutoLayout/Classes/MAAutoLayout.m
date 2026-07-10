@@ -732,6 +732,17 @@ static char kInstalledMAAutoLayoutKey;
     return self.insets(insets);
 }
 
+- (MAAutoLayoutMakers * _Nonnull (^)(UIEdgeInsets))edge{
+    return ^id(UIEdgeInsets edge){
+        self.insetsValue = UIEdgeInsetsMake(edge.top, edge.left, -edge.bottom, -edge.right);
+        return self;
+    };
+}
+
+- (MAAutoLayoutMakers *)edge:(UIEdgeInsets)edge{
+    return self.edge(edge);
+}
+
 - (MAAutoLayoutMakers * _Nonnull (^)(id _Nonnull))equalTo{
     return ^id(id attribute) {
         return self.equalToWithRelation(attribute, NSLayoutRelationEqual);
