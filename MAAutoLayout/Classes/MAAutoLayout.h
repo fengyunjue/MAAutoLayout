@@ -91,6 +91,12 @@ typedef NS_OPTIONS(NSInteger, MAAutoLayoutZeroType) {
 @property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_safeAreaLayoutGuideLeft;
 @property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_safeAreaLayoutGuideRight;
 
+//iOS15 keyboardLayoutGuide
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_keyboardLayoutGuideTop API_AVAILABLE(ios(15.0));
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_keyboardLayoutGuideBottom API_AVAILABLE(ios(15.0));
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_keyboardLayoutGuideLeft API_AVAILABLE(ios(15.0));
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_keyboardLayoutGuideRight API_AVAILABLE(ios(15.0));
+
 - (void)ma_makeConstraints:(void(^_Nonnull)(MAAutoLayout * _Nonnull make))make;
 - (void)ma_remakeConstraints:(void(^_Nonnull)(MAAutoLayout * _Nonnull make))make;
 - (void)ma_updateConstraints:(void (^_Nonnull)(MAAutoLayout * _Nonnull newMake))make;
@@ -114,6 +120,10 @@ typedef NS_OPTIONS(NSInteger, MAAutoLayoutZeroType) {
 
 @property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_safeAreaTopLayoutGuide;
 @property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_safeAreaBottomLayoutGuide;
+
+//iOS15 keyboardLayoutGuide
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_keyboardLayoutGuideTop API_AVAILABLE(ios(15.0));
+@property (nonatomic, strong, readonly) MAViewAttribute * _Nonnull ma_keyboardLayoutGuideBottom API_AVAILABLE(ios(15.0));
 
 @end
 

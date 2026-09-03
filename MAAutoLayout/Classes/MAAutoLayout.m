@@ -361,6 +361,32 @@ static char kInstalledMAAutoLayoutKey;
     return [self ma_safeAreaViewAttribute:NSLayoutAttributeRight];
 }
 
+- (MAViewAttribute *)ma_keyboardLayoutGuideTop {
+    return [self ma_keyboardLayoutGuideViewAttribute:NSLayoutAttributeTop];
+}
+
+- (MAViewAttribute *)ma_keyboardLayoutGuideBottom {
+    return [self ma_keyboardLayoutGuideViewAttribute:NSLayoutAttributeBottom];
+}
+
+- (MAViewAttribute *)ma_keyboardLayoutGuideLeft {
+    return [self ma_keyboardLayoutGuideViewAttribute:NSLayoutAttributeLeft];
+}
+
+- (MAViewAttribute *)ma_keyboardLayoutGuideRight {
+    return [self ma_keyboardLayoutGuideViewAttribute:NSLayoutAttributeRight];
+}
+
+- (MAViewAttribute *)ma_keyboardLayoutGuideViewAttribute:(NSLayoutAttribute)layoutAttribute {
+    id item = self;
+#ifdef __IPHONE_15_0
+    if (@available(iOS 15.0, *)) {
+        item = self.keyboardLayoutGuide;
+    }
+#endif
+    return [[MAViewAttribute alloc] initWithItem:item layoutAttribute:layoutAttribute];
+}
+
 #pragma mark - private
 - (MAViewAttribute *)ma_viewAttribute:(NSLayoutAttribute)layoutAttribute {
     return [[MAViewAttribute alloc] initWithItem:self layoutAttribute:layoutAttribute];
@@ -463,6 +489,14 @@ static char kInstalledMAAutoLayoutKey;
     }
 #endif
     return [[MAViewAttribute alloc] initWithItem:item layoutAttribute:attribute];
+}
+
+- (MAViewAttribute *)ma_keyboardLayoutGuideTop {
+    return self.view.ma_keyboardLayoutGuideTop;
+}
+
+- (MAViewAttribute *)ma_keyboardLayoutGuideBottom {
+    return self.view.ma_keyboardLayoutGuideBottom;
 }
 
 @end
@@ -651,6 +685,25 @@ static char kInstalledMAAutoLayoutKey;
     self.layoutConstraint = nil;
 }
 
+- (NSLayoutAnchor *)ma_firstLayoutAnchor {
+    if (!self.firstItem) return nil;
+    switch (self.firstAttribute) {
+        case NSLayoutAttributeLeft: return self.firstItem.leftAnchor;
+        case NSLayoutAttributeRight: return self.firstItem.rightAnchor;
+        case NSLayoutAttributeTop: return self.firstItem.topAnchor;
+        case NSLayoutAttributeBottom: return self.firstItem.bottomAnchor;
+        case NSLayoutAttributeLeading: return self.firstItem.leadingAnchor;
+        case NSLayoutAttributeTrailing: return self.firstItem.trailingAnchor;
+        case NSLayoutAttributeWidth: return self.firstItem.widthAnchor;
+        case NSLayoutAttributeHeight: return self.firstItem.heightAnchor;
+        case NSLayoutAttributeCenterX: return self.firstItem.centerXAnchor;
+        case NSLayoutAttributeCenterY: return self.firstItem.centerYAnchor;
+        case NSLayoutAttributeLastBaseline: return self.firstItem.lastBaselineAnchor;
+        case NSLayoutAttributeFirstBaseline: return self.firstItem.firstBaselineAnchor;
+        default: return self.firstItem.topAnchor;
+    }
+}
+
 #pragma mark private
 - (MAAutoLayoutMaker * (^)(id, NSLayoutRelation))equalToWithRelation {
     return ^id(id attribute, NSLayoutRelation relation) {
@@ -658,15 +711,25 @@ static char kInstalledMAAutoLayoutKey;
         if ([attribute isKindOfClass:[UIView class]]) {
             self.secondItem = attribute;
             self.secondAttribute = self.firstAttribute;
+        }else if ([attribute isKindOfClass:[UILayoutGuide class]]){
+            self.secondItem = attribute;
+            self.secondAttribute = self.firstAttribute;
         }else if ([attribute isKindOfClass:[MAViewAttribute class]]){
             self.secondItem = ((MAViewAttribute *)attribute).item;
             self.secondAttribute = ((MAViewAttribute *)attribute).layoutAttribute;
+        }else if ([attribute isKindOfClass:[NSLayoutAnchor class]]){
+            NSLayoutAnchor *firstAnchor = [self ma_firstLayoutAnchor];
+            if (firstAnchor) {
+                NSLayoutConstraint *temp = [firstAnchor constraintEqualToAnchor:(NSLayoutAnchor *)attribute];
+                self.secondItem = temp.secondItem;
+                self.secondAttribute = temp.secondAttribute;
+            }
         }else if ([attribute isKindOfClass:[NSNumber class]]){
             self.secondItem = nil;
             self.secondAttribute = NSLayoutAttributeNotAnAttribute;
             self.constant = ((NSNumber *)attribute).floatValue;
         }else{
-            NSAssert(attribute, @"格式不正确,必须是UIView或MAAutoLayoutMaker或NSNumber");
+            NSAssert(attribute, @"格式不正确,必须是UIView或UILayoutGuide或MAViewAttribute或NSLayoutAnchor或NSNumber");
         }
         self.relation = relation;
         return self;

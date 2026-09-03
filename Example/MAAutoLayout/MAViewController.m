@@ -9,6 +9,9 @@
 #import "MAViewController.h"
 #import "Masonry.h"
 #import "MAAutoLayout.h"
+#import "MAKeyboardDemoViewController.h"
+
+#pragma mark - MAViewController Implementation
 
 @interface MAViewController ()
 
@@ -18,6 +21,7 @@
 @property (nonatomic, strong) UIView *view3;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *titleLabel1;
+@property (nonatomic, strong) UIButton *keyboardDemoButton;
 
 @end
 
@@ -27,7 +31,6 @@
 {
     [super viewDidLoad];
     
-	// Do any additional setup after loading the view, typically from a nib.
     [self.view addSubview:self.view0];
     [self.view addSubview:self.view1];
     [self.view addSubview:self.view2];
@@ -50,7 +53,6 @@
         make.size.ma_equalSize(100,200);
     }];
 
-    
     UIView *view = [[UIView alloc] init];
     view.backgroundColor = [UIColor redColor];
     [self.view addSubview:view];
@@ -73,10 +75,33 @@
         make.zeroTypeWhenHidden = MAAutoLayoutZeroTypeHeight;
     }];
 
+    // 键盘测试入口按钮
+    self.keyboardDemoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.keyboardDemoButton setTitle:@"Keyboard Demo" forState:UIControlStateNormal];
+    [self.keyboardDemoButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.keyboardDemoButton.backgroundColor = [UIColor systemIndigoColor];
+    self.keyboardDemoButton.titleLabel.font = [UIFont boldSystemFontOfSize:13];
+    self.keyboardDemoButton.layer.cornerRadius = 6;
+    self.keyboardDemoButton.layer.masksToBounds = YES;
+    [self.keyboardDemoButton addTarget:self action:@selector(openKeyboardDemo) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.keyboardDemoButton];
+
+    [self.keyboardDemoButton ma_makeConstraints:^(MAAutoLayout * _Nonnull make) {
+        make.top.equalTo(self.view.ma_safeAreaLayoutGuideTop).offset(8);
+        make.left.equalTo(self.view).offset(15);
+        make.size.ma_equalSize(140, 32);
+    }];
+}
+
+- (void)openKeyboardDemo {
+    if (@available(iOS 15.0, *)) {
+        MAKeyboardDemoViewController *demoVC = [[MAKeyboardDemoViewController alloc] init];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:demoVC];
+        [self presentViewController:nav animated:YES completion:nil];
+    }
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    
     self.titleLabel.hidden = arc4random() % 2 == 0;
     self.titleLabel1.hidden = arc4random() % 2 == 0;
     self.titleLabel1.ma_topMaker.zeroHide = self.titleLabel.hidden || self.titleLabel1.hidden;
@@ -151,7 +176,6 @@
     return _view3;
 }
 
-
 - (UILabel *)titleLabel{
     if(!_titleLabel){
         _titleLabel = [[UILabel alloc]init];
@@ -173,4 +197,5 @@
     }
     return _titleLabel1;
 }
+
 @end
