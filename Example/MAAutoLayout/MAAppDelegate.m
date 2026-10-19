@@ -7,12 +7,17 @@
 //
 
 #import "MAAppDelegate.h"
+#import "MAAutoLayout.h"
 
 @implementation MAAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+    [MAAutoLayout setErrorHandler:^(NSError * _Nullable error) {
+        NSLog(@"++++++++++++++%@",error);
+    }];
     return YES;
 }
 

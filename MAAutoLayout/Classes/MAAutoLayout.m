@@ -19,6 +19,8 @@
 @property (nonatomic, assign) CGFloat constant;
 @property (nonatomic, assign) UILayoutPriority priorityValue;
 @property (nonatomic, assign) CGFloat hideConstant;
+@property (nonatomic, assign) BOOL requiresSecondItem;
+@property (nullable, nonatomic, copy) NSString *invalidReason;
 
 @property (nonatomic,strong) NSLayoutConstraint *layoutConstraint;
 
@@ -35,9 +37,35 @@
 
 @property (nonatomic, strong) NSArray *zeroLayoutMakers;
 
++ (void)reportErrorForMaker:(MAAutoLayoutMaker *)maker reason:(NSString *)reason;
+
 @end
 
+static void (^MAAutoLayoutErrorHandler)(NSError *error);
+
 @implementation MAAutoLayout
+
++ (void)setErrorHandler:(void (^)(NSError *))errorHandler {
+    MAAutoLayoutErrorHandler = [errorHandler copy];
+}
+
++ (void)reportErrorForMaker:(MAAutoLayoutMaker *)maker reason:(NSString *)reason {
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    userInfo[NSLocalizedDescriptionKey] = reason;
+    userInfo[@"firstAttribute"] = @(maker.firstAttribute);
+    userInfo[@"firstItemClass"] = maker.firstItem ? NSStringFromClass([maker.firstItem class]) : @"nil";
+    userInfo[@"secondAttribute"] = @(maker.secondAttribute);
+    userInfo[@"secondItemClass"] = maker.secondItem ? NSStringFromClass([maker.secondItem class]) : @"nil";
+    userInfo[@"relation"] = @(maker.relation);
+    userInfo[@"constant"] = @(maker.constant);
+    userInfo[@"callStackSymbols"] = [NSThread callStackSymbols];
+    NSError *error = [NSError errorWithDomain:@"MAAutoLayoutErrorDomain" code:1 userInfo:userInfo];
+    if (MAAutoLayoutErrorHandler) {
+        MAAutoLayoutErrorHandler(error);
+    } else {
+        NSLog(@"[MAAutoLayout] %@", error);
+    }
+}
 
 - (id)initWithView:(UIView *)view{
     self = [super init];
@@ -527,6 +555,8 @@ static char kInstalledMAAutoLayoutKey;
     newMaker.multiplierValue = self.multiplierValue;
     newMaker.constant = self.constant;
     newMaker.priorityValue = self.priorityValue;
+    newMaker.requiresSecondItem = self.requiresSecondItem;
+    newMaker.invalidReason = self.invalidReason;
     return newMaker;
 }
 
@@ -667,11 +697,22 @@ static char kInstalledMAAutoLayoutKey;
     if (self.layoutConstraint) {
         self.layoutConstraint.active = NO;
     }
-    if (self.firstItem) {
-        self.layoutConstraint = [NSLayoutConstraint constraintWithItem:self.firstItem attribute:self.firstAttribute relatedBy:self.relation toItem:self.secondItem attribute:self.secondAttribute multiplier:self.multiplierValue constant:self.constant];
-        self.layoutConstraint.priority = self.priorityValue;
-        self.layoutConstraint.active = YES;
+    NSString *reason = self.invalidReason;
+    if (!reason && !self.firstItem) {
+        reason = @"Cannot create a constraint because the first item is nil.";
+    } else if (!reason && self.requiresSecondItem && !self.secondItem) {
+        reason = @"Cannot create a constraint because its required second item is nil or has been deallocated.";
     }
+    if (reason) {
+        [MAAutoLayout reportErrorForMaker:self reason:reason];
+#if DEBUG
+        [NSException raise:NSInvalidArgumentException format:@"[MAAutoLayout] %@", reason];
+#endif
+        return nil;
+    }
+    self.layoutConstraint = [NSLayoutConstraint constraintWithItem:self.firstItem attribute:self.firstAttribute relatedBy:self.relation toItem:self.secondItem attribute:self.secondAttribute multiplier:self.multiplierValue constant:self.constant];
+    self.layoutConstraint.priority = self.priorityValue;
+    self.layoutConstraint.active = YES;
     return self.layoutConstraint;
 }
 
@@ -708,16 +749,27 @@ static char kInstalledMAAutoLayoutKey;
 - (MAAutoLayoutMaker * (^)(id, NSLayoutRelation))equalToWithRelation {
     return ^id(id attribute, NSLayoutRelation relation) {
         self.relation = relation;
-        if ([attribute isKindOfClass:[UIView class]]) {
+        if (!attribute) {
+            self.requiresSecondItem = YES;
+            self.invalidReason = @"equalTo: received nil. Pass a view, layout guide, view attribute, anchor, or a numeric constant.";
+        } else if ([attribute isKindOfClass:[UIView class]]) {
+            self.requiresSecondItem = YES;
+            self.invalidReason = nil;
             self.secondItem = attribute;
             self.secondAttribute = self.firstAttribute;
         }else if ([attribute isKindOfClass:[UILayoutGuide class]]){
+            self.requiresSecondItem = YES;
+            self.invalidReason = nil;
             self.secondItem = attribute;
             self.secondAttribute = self.firstAttribute;
         }else if ([attribute isKindOfClass:[MAViewAttribute class]]){
+            self.requiresSecondItem = YES;
             self.secondItem = ((MAViewAttribute *)attribute).item;
             self.secondAttribute = ((MAViewAttribute *)attribute).layoutAttribute;
+            self.invalidReason = self.secondItem ? nil : @"The MAViewAttribute has a nil item.";
         }else if ([attribute isKindOfClass:[NSLayoutAnchor class]]){
+            self.requiresSecondItem = YES;
+            self.invalidReason = nil;
             NSLayoutAnchor *firstAnchor = [self ma_firstLayoutAnchor];
             if (firstAnchor) {
                 NSLayoutConstraint *temp = [firstAnchor constraintEqualToAnchor:(NSLayoutAnchor *)attribute];
@@ -725,11 +777,14 @@ static char kInstalledMAAutoLayoutKey;
                 self.secondAttribute = temp.secondAttribute;
             }
         }else if ([attribute isKindOfClass:[NSNumber class]]){
+            self.requiresSecondItem = NO;
+            self.invalidReason = nil;
             self.secondItem = nil;
             self.secondAttribute = NSLayoutAttributeNotAnAttribute;
             self.constant = ((NSNumber *)attribute).floatValue;
         }else{
-            NSAssert(attribute, @"格式不正确,必须是UIView或UILayoutGuide或MAViewAttribute或NSLayoutAnchor或NSNumber");
+            self.requiresSecondItem = NO;
+            self.invalidReason = [NSString stringWithFormat:@"Unsupported constraint target type: %@.", NSStringFromClass([attribute class])];
         }
         self.relation = relation;
         return self;
@@ -925,7 +980,10 @@ static char kInstalledMAAutoLayoutKey;
     }
     NSMutableArray *layoutConstraints = [NSMutableArray array];
     for (MAAutoLayoutMaker *maker in self.layoutMarkers) {
-        [layoutConstraints addObject:[maker active]];
+        NSLayoutConstraint *constraint = [maker active];
+        if (constraint) {
+            [layoutConstraints addObject:constraint];
+        }
     }
     return layoutConstraints;
 }
@@ -946,6 +1004,10 @@ static char kInstalledMAAutoLayoutKey;
     _secondItem = secondItem;
     for (MAAutoLayoutMaker *maker in self.layoutMarkers) {
         maker.secondItem = secondItem;
+        maker.requiresSecondItem = (secondItem != nil);
+        if (secondItem) {
+            maker.invalidReason = nil;
+        }
     }
 }
 
@@ -978,17 +1040,32 @@ static char kInstalledMAAutoLayoutKey;
 
 - (MAAutoLayoutMakers * (^)(id, NSLayoutRelation))equalToWithRelation {
     return ^id(id attribute, NSLayoutRelation relation) {
-        if ([attribute isKindOfClass:[UIView class]]) {
+        if (!attribute) {
+            for (MAAutoLayoutMaker *maker in self.layoutMarkers) {
+                maker.requiresSecondItem = YES;
+                maker.invalidReason = @"equalTo: received nil. Pass a view or a numeric constant.";
+            }
+        } else if ([attribute isKindOfClass:[UIView class]]) {
             self.secondItem = attribute;
         }else if ([attribute isKindOfClass:[NSNumber class]]){
             self.secondItem = nil;
+            for (MAAutoLayoutMaker *maker in self.layoutMarkers) {
+                maker.requiresSecondItem = NO;
+                maker.invalidReason = nil;
+            }
             self.insetsValue = UIEdgeInsetsMake(((NSNumber *)attribute).floatValue, ((NSNumber *)attribute).floatValue, 0, 0);
         }else if ([attribute isKindOfClass:[NSValue class]]) {
             self.secondItem = nil;
+            for (MAAutoLayoutMaker *maker in self.layoutMarkers) {
+                maker.requiresSecondItem = NO;
+                maker.invalidReason = nil;
+            }
             CGSize size = [(NSValue *)attribute CGSizeValue];
             self.insetsValue = UIEdgeInsetsMake(size.width, size.height, 0, 0);
         }else{
-            NSAssert(attribute, @"格式不正确,必须是UIView或NSNumber");
+            for (MAAutoLayoutMaker *maker in self.layoutMarkers) {
+                maker.invalidReason = [NSString stringWithFormat:@"Unsupported constraint target type: %@.", NSStringFromClass([attribute class])];
+            }
         }
         self.relation = relation;
         return self;

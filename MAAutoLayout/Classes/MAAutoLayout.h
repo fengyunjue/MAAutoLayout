@@ -30,6 +30,9 @@ typedef NS_OPTIONS(NSInteger, MAAutoLayoutZeroType) {
 
 @interface MAAutoLayout : NSObject
 
+/// Receives invalid constraint descriptions in all build configurations. Use this to forward layout errors to your crash or analytics service.
++ (void)setErrorHandler:(void (^ _Nullable)(NSError * _Nullable error))errorHandler;
+
 - (nonnull instancetype)initWithView:(UIView * _Nonnull)view;
 
 // 基本操作
