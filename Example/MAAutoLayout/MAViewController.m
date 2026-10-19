@@ -94,11 +94,9 @@
 }
 
 - (void)openKeyboardDemo {
-    if (@available(iOS 15.0, *)) {
-        MAKeyboardDemoViewController *demoVC = [[MAKeyboardDemoViewController alloc] init];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:demoVC];
-        [self presentViewController:nav animated:YES completion:nil];
-    }
+    MAKeyboardDemoViewController *demoVC = [[MAKeyboardDemoViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:demoVC];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {

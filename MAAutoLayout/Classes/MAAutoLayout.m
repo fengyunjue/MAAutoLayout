@@ -406,13 +406,7 @@ static char kInstalledMAAutoLayoutKey;
 }
 
 - (MAViewAttribute *)ma_keyboardLayoutGuideViewAttribute:(NSLayoutAttribute)layoutAttribute {
-    id item = self;
-#ifdef __IPHONE_15_0
-    if (@available(iOS 15.0, *)) {
-        item = self.keyboardLayoutGuide;
-    }
-#endif
-    return [[MAViewAttribute alloc] initWithItem:item layoutAttribute:layoutAttribute];
+    return [[MAViewAttribute alloc] initWithItem:self.keyboardLayoutGuide layoutAttribute:layoutAttribute];
 }
 
 #pragma mark - private
@@ -421,13 +415,7 @@ static char kInstalledMAAutoLayoutKey;
 }
 
 - (MAViewAttribute *)ma_safeAreaViewAttribute:(NSLayoutAttribute)layoutAttribute {
-    id item = self;
-#ifdef __IPHONE_11_0
-    if (@available(iOS 11.0, *)) {
-        item = self.safeAreaLayoutGuide;
-    }
-#endif
-    return [[MAViewAttribute alloc] initWithItem:item layoutAttribute:layoutAttribute];
+    return [[MAViewAttribute alloc] initWithItem:self.safeAreaLayoutGuide layoutAttribute:layoutAttribute];
 }
 
 +(BOOL)ma_swizzleMethod:(SEL)originalSEL withMethod:(SEL)alternateSEL{
@@ -490,33 +478,11 @@ static char kInstalledMAAutoLayoutKey;
 }
 
 - (MAViewAttribute *)ma_safeAreaTopLayoutGuide{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    id item = self.topLayoutGuide;
-#pragma clang diagnostic pop
-    NSLayoutAttribute attribute = NSLayoutAttributeBottom;
-#ifdef __IPHONE_11_0
-    if (@available(iOS 11.0, *)) {
-        item = self.view.safeAreaLayoutGuide;
-        attribute = NSLayoutAttributeTop;
-    }
-#endif
-    return [[MAViewAttribute alloc] initWithItem:item layoutAttribute:attribute];
+    return [[MAViewAttribute alloc] initWithItem:self.view.safeAreaLayoutGuide layoutAttribute:NSLayoutAttributeTop];
 }
 
 - (MAViewAttribute *)ma_safeAreaBottomLayoutGuide{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    id item = self.bottomLayoutGuide;
-#pragma clang diagnostic pop
-    NSLayoutAttribute attribute = NSLayoutAttributeTop;
-#ifdef __IPHONE_11_0
-    if (@available(iOS 11.0, *)) {
-        item = self.view.safeAreaLayoutGuide;
-        attribute = NSLayoutAttributeBottom;
-    }
-#endif
-    return [[MAViewAttribute alloc] initWithItem:item layoutAttribute:attribute];
+    return [[MAViewAttribute alloc] initWithItem:self.view.safeAreaLayoutGuide layoutAttribute:NSLayoutAttributeBottom];
 }
 
 - (MAViewAttribute *)ma_keyboardLayoutGuideTop {
@@ -702,6 +668,11 @@ static char kInstalledMAAutoLayoutKey;
         reason = @"Cannot create a constraint because the first item is nil.";
     } else if (!reason && self.requiresSecondItem && !self.secondItem) {
         reason = @"Cannot create a constraint because its required second item is nil or has been deallocated.";
+    }
+    if (!reason && !self.secondItem &&
+        ((self.firstAttribute != NSLayoutAttributeWidth && self.firstAttribute != NSLayoutAttributeHeight) ||
+         self.secondAttribute != NSLayoutAttributeNotAnAttribute || self.multiplierValue != 1.0)) {
+        reason = @"A constraint without a second item must constrain width or height to a constant.";
     }
     if (reason) {
         [MAAutoLayout reportErrorForMaker:self reason:reason];
@@ -1005,6 +976,9 @@ static char kInstalledMAAutoLayoutKey;
     for (MAAutoLayoutMaker *maker in self.layoutMarkers) {
         maker.secondItem = secondItem;
         maker.requiresSecondItem = (secondItem != nil);
+        if (!secondItem) {
+            maker.secondAttribute = NSLayoutAttributeNotAnAttribute;
+        }
         if (secondItem) {
             maker.invalidReason = nil;
         }
@@ -1137,91 +1111,79 @@ static char kInstalledMAAutoLayoutKey;
 }
 
 - (UIEdgeInsets)ma_safeAreaInsets{
-    UIEdgeInsets safeInsets = UIEdgeInsetsZero;
-#ifdef __IPHONE_11_0
-    if (@available(iOS 11.0, *)) {
-        safeInsets = self.safeAreaInsets;
-    }
-#endif
-    return safeInsets;
+    return self.safeAreaInsets;
 }
 
 + (UIEdgeInsets)ma_rootSafeAreaInsets {
     UIEdgeInsets safeInsets = UIEdgeInsetsZero;
-#ifdef __IPHONE_11_0
-    if (@available(iOS 11.0, *)) {
-        UIWindow *window = [self ma_getKeyWindow];
-        if (window) {
-            safeInsets = window.safeAreaInsets;
-        }
+    UIWindow *window = [self ma_getKeyWindow];
+    if (window) {
+        safeInsets = window.safeAreaInsets;
     }
-#endif
     return safeInsets;
 }
 
 + (UIWindow *)ma_getKeyWindow {
     UIWindow *foundWindow = nil;
-    
-    if (@available(iOS 13.0, *)) {
-        UIWindowScene *bestScene = nil;
-        for (UIScene *scene in [UIApplication sharedApplication].connectedScenes) {
-            if ([scene isKindOfClass:[UIWindowScene class]]) {
-                if (scene.activationState == UISceneActivationStateForegroundActive) {
-                    bestScene = (UIWindowScene *)scene;
-                    break;
-                } else if (scene.activationState == UISceneActivationStateForegroundInactive) {
-                    bestScene = (UIWindowScene *)scene;
-                } else if (!bestScene) {
-                    bestScene = (UIWindowScene *)scene;
-                }
+
+    UIWindowScene *bestScene = nil;
+    for (UIScene *scene in [UIApplication sharedApplication].connectedScenes) {
+        if ([scene isKindOfClass:[UIWindowScene class]]) {
+            if (scene.activationState == UISceneActivationStateForegroundActive) {
+                bestScene = (UIWindowScene *)scene;
+                break;
+            } else if (scene.activationState == UISceneActivationStateForegroundInactive) {
+                bestScene = (UIWindowScene *)scene;
+            } else if (!bestScene) {
+                bestScene = (UIWindowScene *)scene;
             }
-        }
-        
-        if (bestScene) {
-            for (UIWindow *window in bestScene.windows) {
-                if (window.isKeyWindow && window.windowLevel == UIWindowLevelNormal) {
-                    foundWindow = window;
-                    break;
-                }
-            }
-            if (!foundWindow) {
-                for (UIWindow *window in bestScene.windows) {
-                    if (window.windowLevel == UIWindowLevelNormal) {
-                        foundWindow = window;
-                        break;
-                    }
-                }
-            }
-        }
-        
-        if (!foundWindow) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            for (UIWindow *window in [UIApplication sharedApplication].windows) {
-                if (window.isKeyWindow && window.windowLevel == UIWindowLevelNormal) {
-                    foundWindow = window;
-                    break;
-                }
-            }
-            if (!foundWindow) {
-                for (UIWindow *window in [UIApplication sharedApplication].windows) {
-                    if (window.windowLevel == UIWindowLevelNormal) {
-                        foundWindow = window;
-                        break;
-                    }
-                }
-            }
-#pragma clang diagnostic pop
         }
     }
-    
+
+    if (bestScene) {
+        for (UIWindow *window in bestScene.windows) {
+            if (window.isKeyWindow && window.windowLevel == UIWindowLevelNormal) {
+                foundWindow = window;
+                break;
+            }
+        }
+        if (!foundWindow) {
+            for (UIWindow *window in bestScene.windows) {
+                if (window.windowLevel == UIWindowLevelNormal) {
+                    foundWindow = window;
+                    break;
+                }
+            }
+        }
+    }
+
+    if (!foundWindow) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        for (UIWindow *window in [UIApplication sharedApplication].windows) {
+            if (window.isKeyWindow && window.windowLevel == UIWindowLevelNormal) {
+                foundWindow = window;
+                break;
+            }
+        }
+        if (!foundWindow) {
+            for (UIWindow *window in [UIApplication sharedApplication].windows) {
+                if (window.windowLevel == UIWindowLevelNormal) {
+                    foundWindow = window;
+                    break;
+                }
+            }
+        }
+#pragma clang diagnostic pop
+    }
+
     if (!foundWindow) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         foundWindow = [UIApplication sharedApplication].keyWindow;
 #pragma clang diagnostic pop
     }
-    
+
     if (!foundWindow) {
         id<UIApplicationDelegate> delegate = [UIApplication sharedApplication].delegate;
         if ([delegate respondsToSelector:@selector(window)]) {

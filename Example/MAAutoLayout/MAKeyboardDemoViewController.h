@@ -10,7 +10,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-API_AVAILABLE(ios(15.0))
 @interface MAKeyboardDemoViewController : UIViewController
 
 @property (nonatomic, strong, readonly) UISegmentedControl *modeSegment;

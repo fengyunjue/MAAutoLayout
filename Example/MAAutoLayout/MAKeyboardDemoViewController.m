@@ -9,7 +9,6 @@
 #import "MAKeyboardDemoViewController.h"
 #import "MAAutoLayout.h"
 
-API_AVAILABLE(ios(15.0))
 @interface MAKeyboardDemoViewController ()
 
 @property (nonatomic, strong, readwrite) UISegmentedControl *modeSegment;
