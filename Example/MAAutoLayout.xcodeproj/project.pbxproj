@@ -15,17 +15,18 @@
 		6003F59A195388D20070C39A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F599195388D20070C39A /* main.m */; };
 		6003F59E195388D20070C39A /* MAAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F59D195388D20070C39A /* MAAppDelegate.m */; };
 		6003F5A7195388D20070C39A /* MAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5A6195388D20070C39A /* MAViewController.m */; };
-		A10000032609030000000003 /* MAKeyboardDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A10000022609030000000002 /* MAKeyboardDemoViewController.m */; };
 		6003F5A9195388D20070C39A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5A8195388D20070C39A /* Images.xcassets */; };
 		6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F5AF195388D20070C39A /* XCTest.framework */; };
 		6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
+		700000000000000000000001 /* MASceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 700000000000000000000003 /* MASceneDelegate.m */; };
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
 		848462052509F79200310D80 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848462042509F79200310D80 /* ViewController.swift */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		95BDFD23A458CD8F959F9C62 /* Pods_MAAutoLayout_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 236394FFC7E090B193A7E75B /* Pods_MAAutoLayout_Tests.framework */; };
+		A10000032609030000000003 /* MAKeyboardDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A10000022609030000000002 /* MAKeyboardDemoViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,8 +57,6 @@
 		6003F59D195388D20070C39A /* MAAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MAAppDelegate.m; sourceTree = "<group>"; };
 		6003F5A5195388D20070C39A /* MAViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAViewController.h; sourceTree = "<group>"; };
 		6003F5A6195388D20070C39A /* MAViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MAViewController.m; sourceTree = "<group>"; };
-		A10000012609030000000001 /* MAKeyboardDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAKeyboardDemoViewController.h; sourceTree = "<group>"; };
-		A10000022609030000000002 /* MAKeyboardDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MAKeyboardDemoViewController.m; sourceTree = "<group>"; };
 		6003F5A8195388D20070C39A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		6003F5AE195388D20070C39A /* MAAutoLayout_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MAAutoLayout_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F5AF195388D20070C39A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -66,10 +65,14 @@
 		6003F5BB195388D20070C39A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		627A779C485490B0D2E30906 /* Pods-MAAutoLayout_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MAAutoLayout_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MAAutoLayout_Tests/Pods-MAAutoLayout_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		700000000000000000000002 /* MASceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MASceneDelegate.h; sourceTree = "<group>"; };
+		700000000000000000000003 /* MASceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MASceneDelegate.m; sourceTree = "<group>"; };
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		848462032509F79200310D80 /* MAAutoLayout_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MAAutoLayout_Example-Bridging-Header.h"; sourceTree = "<group>"; };
 		848462042509F79200310D80 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		A10000012609030000000001 /* MAKeyboardDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAKeyboardDemoViewController.h; sourceTree = "<group>"; };
+		A10000022609030000000002 /* MAKeyboardDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MAKeyboardDemoViewController.m; sourceTree = "<group>"; };
 		BFF75E7D36FA8448579827E9 /* MAAutoLayout.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = MAAutoLayout.podspec; path = ../MAAutoLayout.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		FA64B6828E5FFCCDD6E3C370 /* Pods-MAAutoLayout_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MAAutoLayout_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-MAAutoLayout_Example/Pods-MAAutoLayout_Example.release.xcconfig"; sourceTree = "<group>"; };
 		FAF52416AF0C879342AA8A61 /* Pods-MAAutoLayout_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MAAutoLayout_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MAAutoLayout_Example/Pods-MAAutoLayout_Example.debug.xcconfig"; sourceTree = "<group>"; };
@@ -140,6 +143,8 @@
 			children = (
 				6003F59C195388D20070C39A /* MAAppDelegate.h */,
 				6003F59D195388D20070C39A /* MAAppDelegate.m */,
+				700000000000000000000002 /* MASceneDelegate.h */,
+				700000000000000000000003 /* MASceneDelegate.m */,
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
 				6003F5A5195388D20070C39A /* MAViewController.h */,
 				6003F5A6195388D20070C39A /* MAViewController.m */,
@@ -372,6 +377,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6003F59E195388D20070C39A /* MAAppDelegate.m in Sources */,
+				700000000000000000000001 /* MASceneDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* MAViewController.m in Sources */,
 				A10000032609030000000003 /* MAKeyboardDemoViewController.m in Sources */,
 				848462052509F79200310D80 /* ViewController.swift in Sources */,
@@ -536,7 +542,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MAAutoLayout/MAAutoLayout-Prefix.pch";
 				INFOPLIST_FILE = "MAAutoLayout/MAAutoLayout-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
@@ -558,7 +564,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MAAutoLayout/MAAutoLayout-Prefix.pch";
 				INFOPLIST_FILE = "MAAutoLayout/MAAutoLayout-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
